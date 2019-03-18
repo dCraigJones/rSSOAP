@@ -4,10 +4,11 @@
 #' @param t Time to Peak, in days
 #' @param k Recession Constant
 #'
-#' @return
+#' @return Unit Hydrograph
 #' @export
 #'
 #' @examples
+#' plot(RTK(0.025,2,4), type="l")
 RTK <- function(r,t,k) {
   UH <- NULL
   maxLength <- 30
