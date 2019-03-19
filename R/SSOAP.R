@@ -24,6 +24,7 @@
 #' @export
 #'
 #' @examples
+#' data(DF)
 #' Get.DWF(DF$date, DF$Buffalo, DF$rain)
 Get.DWF <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.long=1, dry.days.long=14, max.stdev=0.5) {
   DWF.amc.short <- !filter(rain, rep(1/dry.days.short,dry.days.short))>max.rain.short
@@ -32,7 +33,7 @@ Get.DWF <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.
   DWF.amc.long <- !filter(rain, rep(1/dry.days.long,dry.days.long))>max.rain.long
   DWF.amc.long[is.na(DWF.amc.long)] <- FALSE
 
-  is.wkd <- isWeekday(date)
+  is.wkd <- timeDate::isWeekday(date)
   #is.hol <- isHoliday(as.timeDate(df$date))
 
   #use <- df[DWF.amc.short & is.wkd & DWF.amc.long & !is.hol,]
@@ -64,10 +65,11 @@ Get.DWF <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.
 #' @export
 #'
 #' @examples
+#' data(DF)
 #' Get.DWF(DF$date, DF$Buffalo, DF$rain)
 Get.WWF <- function(date,flow,rain) {
   DWF <- Get.DWF(date,flow,rain)
-  is.wkd <- isWeekday(date)
+  is.wkd <- timeDate::isWeekday(date)
 
   . <- flow
   .[is.wkd] <- flow[is.wkd]-DWF$weekday
@@ -87,12 +89,13 @@ Get.WWF <- function(date,flow,rain) {
 #' @export
 #'
 #' @examples
+#' data(DF)
 #' Get.GWI(DF$date, DF$Buffalo, DF$rain)
 Get.GWI <- function(date, flow, rain) {
 
   delta <- Get.WWF(date, flow, rain)
 
-  GWI <- rollapply(delta, 29, quantile, prob=0.05)
+  GWI <- zoo::rollapply(delta, 29, quantile, prob=0.05)
   GWI <- c(rep(0,14), GWI, rep(0,14))
 
   return(unname(GWI))
@@ -109,6 +112,7 @@ Get.GWI <- function(date, flow, rain) {
 #' @export
 #'
 #' @examples
+#' data(DF)
 #' Get.RDII(DF$date, DF$Buffalo, DF$rain)
 Get.RDII <- function(date, flow, rain) {
   flow <- Get.WWF(date, flow, rain) - Get.GWI(date, flow, rain)
@@ -127,6 +131,7 @@ Get.RDII <- function(date, flow, rain) {
 #' @export
 #'
 #' @examples
+#' data(DF)
 #' Get.Events(DF$date, DF$Buffalo, DF$rain)
 Get.Events <- function(date,flow,rain) {
 
@@ -157,6 +162,7 @@ Get.Events <- function(date,flow,rain) {
 #' @export
 #'
 #' @examples
+#' data(DF)
 #' Get.Rain(DF$rain)
 Get.Rain <- function(P) {
   # Remove NA
@@ -220,14 +226,15 @@ Get.Cost <- function(Q, PU, DateRange, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, 
 #' @export
 #'
 #' @examples
-#' Ev <- Get.Events(DF$date, Q, DF$rain)
-#' RD <- Get.RDII(DF$date, Q, DF$rain)
+#' data(DF)
+#' Ev <- Get.Events(DF$date, DF$Barnes, DF$rain)
+#' RD <- Get.RDII(DF$date, DF$Barnes, DF$rain)
 #' PU <- Get.Rain(DF$rain)
 #' Get.Hydrograph(RD, PU, -21:21+Ev[1])
 Get.Hydrograph <- function(Q,PU,DateRange) {
   max.flow <- max(Q)
 
-  A <- ga(type="real-valued"
+  A <- GA::ga(type="real-valued"
           , fitness = function(x) - Get.Cost(Q,PU,DateRange,x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11], x[12], x[13], x[14], x[15])
           , lower = rep(0,15)
           , upper = c(rep(max.flow,5),rep(max.flow/2,5),rep(max.flow/4,5))
