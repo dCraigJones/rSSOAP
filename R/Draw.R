@@ -5,7 +5,18 @@
 #Q <- DF$Hollybrook
 #Q <- DF$McMillan1[1:390]+DF$McMillan2[1:390]
 
-Draw.Panels <- function(Q) {
+#' Draw 4-panel graph
+#'
+#' @param Q daily flow, in GPD
+#' @param H unit hydrograph from output (optional)
+#'
+#' @return unit hydrograph for each event
+#' @export
+#'
+#' @examples
+#' data(DF)
+#' Draw.Panels(DF$Hollybrook)
+Draw.Panels <- function(Q, H=NA) {
     Max.Daily.Flow = ceiling(max(Q)/1e6)
 
     #Max.RDII = 1500
@@ -16,7 +27,7 @@ Draw.Panels <- function(Q) {
 
     PU <- Get.Rain(DF$rain)
 
-    if(!exists("H") | sum(!(Q==Q.prev))>0) {
+    if(anyNA(H)) {
       H <- matrix(c(rep(0,15*length(Ev))), ncol=15)
 
       for (i in 1:nrow(H)) {
@@ -84,8 +95,8 @@ Draw.Panels <- function(Q) {
     lines(DF$date, DF$rain*Max.Daily.Flow/10, type="h", col="blue")
     Month <- c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D")
 
-    axis(1, at=DF$date[which(day(DF$date)==1)], labels=rep(Month,2))
-    axis(1, at=DF$date[c(which(yday(DF$date)==1),length(DF$date))], labels=c(2017,2018,2019), line=2, lwd=0)
+    axis(1, at=DF$date[which(lubridate::day(DF$date)==1)], labels=rep(Month,2))
+    axis(1, at=DF$date[c(which(lubridate::yday(DF$date)==1),length(DF$date))], labels=c(2017,2018,2019), line=2, lwd=0)
     axis(2)
     axis(4, at=seq(0,Max.Daily.Flow,length.out=6), labels=seq(0,10,2))
 
@@ -118,7 +129,7 @@ Draw.Panels <- function(Q) {
            , text.font=2
     )
 
-    Q.prev <- Q
+  return(H)
 }
 # text(mdy("11/01/2018"),mDWF/1e6, "DWF", pos=3)
 # text(mdy("11/01/2018"),MA/1e6, "MA", pos=3)

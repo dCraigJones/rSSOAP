@@ -1,10 +1,10 @@
 Package: rSSOAP
-Title: Analyize long-term, low-resolution pumpstation data using EPA SSOAP methods
+Title: rSSOAP
 Version: 0.0.0.9000
 Author@R: person("Jones", "D. Craig", email="jones.dcraig@gmail.com", role=c("aut", "cre"))
 Author: D. Craig Jones [aut, cre]
 Maintainer: D. Craig Jones <jones.dcraig@gmail.com>
-Description: What the package does (one paragraph).
+Description: Analyize long-term, low-resolution pumpstation data using EPA SSOAP methods
 Depends: R (>= 3.1.0)
 License: GPL-2
 Encoding: UTF-8
