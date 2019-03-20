@@ -19,5 +19,5 @@ Draw 4-panel graph
 }
 \examples{
 data(DF)
-Draw.Panels(DF$Hollybrook)
+H <- Draw.Panels(DF$Hollybrook)
 }

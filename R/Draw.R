@@ -15,13 +15,16 @@
 #'
 #' @examples
 #' data(DF)
-#' Draw.Panels(DF$Hollybrook)
+#' H <- Draw.Panels(DF$Hollybrook)
 Draw.Panels <- function(Q, H=NA) {
     Max.Daily.Flow = ceiling(max(Q)/1e6)
 
     #Max.RDII = 1500
 
     Ev <- Get.Events(DF$date, Q, DF$rain)
+
+    if(length(Ev) < 2)
+      stop("Not enough wet-weather flow variation for analysis")
 
     RD <- Get.RDII(DF$date, Q, DF$rain)
 
