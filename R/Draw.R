@@ -1,13 +1,18 @@
-# source("./R/SSOAP.R")
+# TO-DO
+#
+# Draw.Panels
+# make input consistant
+# fix error checking
+# Change GWI plot to histogram?
+# fix legend or remove legend?
+# change color of design storm abline/mtext
 
-#load("./data/DF.RData")
-
-#Q <- DF$Hollybrook
-#Q <- DF$McMillan1[1:390]+DF$McMillan2[1:390]
 
 #' Draw 4-panel graph
 #'
-#' @param Q daily flow, in GPD
+#' @param date vector of date for flow and rain data
+#' @param flow vector of flow data, in GPD
+#' @param rain vector of rain, in inches
 #' @param H unit hydrograph from output (optional)
 #'
 #' @return unit hydrograph for each event
@@ -15,20 +20,20 @@
 #'
 #' @examples
 #' data(DF)
-#' H <- Draw.Panels(DF$Hollybrook)
-Draw.Panels <- function(Q, H=NA) {
-    Max.Daily.Flow = ceiling(max(Q)/1e6)
+#' H <- Draw.Panels(DF$date, DF$Hollybrook, DF$rain)
+Draw.Panels <- function(date, flow, rain, H=NA) {
+    Max.Daily.Flow = ceiling(max(flow)/1e6)
 
     #Max.RDII = 1500
 
-    Ev <- Get.Events(DF$date, Q, DF$rain)
+    Ev <- Get.Events(date, flow, rain)
 
     if(length(Ev) < 2)
       stop("Not enough wet-weather flow variation for analysis")
 
-    RD <- Get.RDII(DF$date, Q, DF$rain)
+    RD <- Get.RDII(date, flow, rain)
 
-    PU <- Get.Rain(DF$rain)
+    PU <- Get.Rain(rain)
 
     if(anyNA(H)) {
       H <- matrix(c(rep(0,15*length(Ev))), ncol=15)
@@ -43,7 +48,7 @@ Draw.Panels <- function(Q, H=NA) {
     layout(matrix(c(1,2,3,4,4,4), ncol=2, byrow = FALSE), widths=c(1,3))
 
 
-    DWF <- Get.DWF(DF$date, Q, DF$rain)
+    DWF <- Get.DWF(date, flow, rain)
     barplot(c(DWF$weekend, DWF$weekday)/1e3
             , main="DWF"
             , names.arg=c("wkend", "wkday")
@@ -54,7 +59,7 @@ Draw.Panels <- function(Q, H=NA) {
     )
     box(bty="l")
 
-    GWI <- Get.GWI(DF$date, Q, DF$rain)
+    GWI <- Get.GWI(date, flow, rain)
     GWI <- GWI[GWI>0]
     plot(density(GWI/1e3)
          , main="GWI"
@@ -63,15 +68,16 @@ Draw.Panels <- function(Q, H=NA) {
          , bty="l"
     )
 
-    R <- DF$rain[Ev]
+    R <- rain[Ev]
     I <- apply(H,1,max)*R
     fit <- lm(I/1e3~R)
-    x1 <- round(cor(R,I),2)
-    x2 <- round(coef(fit)[2],2)
+    r2 <- round(cor(R,I),2)
+    Rt <- round(coef(fit)[2],2)
+
     plot(R,I/1e3
          , main="RDII"
          , xlim=c(0,6)
-         , ylim=c(0,x2*6)
+         , ylim=c(0,Rt*6)
          , cex=1.5
          , pch=4
          , lwd=2
@@ -80,11 +86,9 @@ Draw.Panels <- function(Q, H=NA) {
          , bty="l"
     )
     abline(fit, lty=2)
-    x1 <- round(cor(R,I),2)
-    x2 <- round(coef(fit)[2],2)
 
     par(mar=c(6,5,3,5)) #Btm, Left, Top, Right
-    plot(DF$date, Q/1e6
+    plot(date, flow/1e6
          , lwd=2
          , type="l"
          , xaxs="i"
@@ -95,11 +99,11 @@ Draw.Panels <- function(Q, H=NA) {
          , ylim=c(0,Max.Daily.Flow)
     )
 
-    lines(DF$date, DF$rain*Max.Daily.Flow/10, type="h", col="blue")
+    lines(date, rain*Max.Daily.Flow/10, type="h", col="blue")
     Month <- c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D")
 
-    axis(1, at=DF$date[which(lubridate::day(DF$date)==1)], labels=rep(Month,2))
-    axis(1, at=DF$date[c(which(lubridate::yday(DF$date)==1),length(DF$date))], labels=c(2017,2018,2019), line=2, lwd=0)
+    axis(1, at=date[which(lubridate::day(date)==1)], labels=rep(Month,2))
+    axis(1, at=date[c(which(lubridate::yday(date)==1),length(date))], labels=c(2017,2018,2019), line=2, lwd=0)
     axis(2)
     axis(4, at=seq(0,Max.Daily.Flow,length.out=6), labels=seq(0,10,2))
 
@@ -107,10 +111,10 @@ Draw.Panels <- function(Q, H=NA) {
     box(lwd=1)
 
     mDWF <- (DWF$weekday+DWF$weekend)/2
-    MA <- unname(max(DWF)+quantile(GWI,0.9)+x2*5*1e3)
-    Jax5YR <- unname(max(DWF)+quantile(GWI,0.9)+x2*6.5*1e3)
-    Jax25YR <- unname(max(DWF)+quantile(GWI,0.9)+x2*9.5*1e3)
-    q75th <- as.numeric(quantile(DF$rain[DF$rain>0.5],0.75)*x2+DWF[1]/1e3+quantile(GWI,0.75)/1e3)*1e3
+    MA <- unname(max(DWF)+quantile(GWI,0.9)+Rt*5*1e3)
+    Jax5YR <- unname(max(DWF)+quantile(GWI,0.9)+Rt*6.5*1e3)
+    Jax25YR <- unname(max(DWF)+quantile(GWI,0.9)+Rt*9.5*1e3)
+    q75th <- as.numeric(quantile(rain[rain>0.5],0.75)*Rt+DWF[1]/1e3+quantile(GWI,0.75)/1e3)*1e3
     abline(h=c(mDWF, q75th, MA, Jax5YR, Jax25YR)/1e6, lty=2)
     axis(2, at=c(mDWF, q75th, MA, Jax5YR, Jax25YR)/1e6, labels=c("DWF", "3Q", "2YR", "5YR", "25YR"), line=1, lwd=0)
     axis(4, at=c(mDWF, q75th, MA, Jax5YR, Jax25YR)/1e6, labels=c("DWF", "3Q", "2YR", "5YR", "25YR"), line=1, lwd=0)
@@ -132,9 +136,61 @@ Draw.Panels <- function(Q, H=NA) {
            , text.font=2
     )
 
-  return(H)
+    Get.Summary(date, flow, rain, H)
+
+    return(H)
 }
-# text(mdy("11/01/2018"),mDWF/1e6, "DWF", pos=3)
-# text(mdy("11/01/2018"),MA/1e6, "MA", pos=3)
-# text(mdy("11/01/2018"),Jax5YR/1e6, "5-YR", pos=3)
-# text(mdy("11/01/2018"),Jax25YR/1e6, "25-YR", pos=3)
+
+
+
+
+#' Summarize Wet-Weather Flow
+#'
+#' @param date vector of date for flow and rain data
+#' @param flow vector of flow data, in GPD
+#' @param rain vector of rain, in inches
+#' @param H unit hydrograph from output (optional)
+#'
+#' @return list
+#' @export
+#'
+#' @examples
+#' data(DF)
+#' Get.Summary(DF$date, DF$Hollybrook, DF$rain)
+Get.Summary <- function(date, flow, rain, H=NA) {
+  DWF <- Get.DWF(date, flow, rain)
+
+  tmp <- Get.GWI(date, flow, rain)
+  tmp <- tmp[tmp>0]
+  GWI <- quantile(tmp, probs=c(0.25, 0.50, 0.75, 0.90, 0.95, 0.99))
+
+  Ev <- Get.Events(date, flow, rain)
+
+  if(length(Ev) < 2)
+    stop("Not enough wet-weather flow variation for analysis")
+
+  RD <- Get.RDII(date, flow, rain)
+
+  PU <- Get.Rain(rain)
+
+  if(anyNA(H)) {
+    H <- matrix(c(rep(0,15*length(Ev))), ncol=15)
+
+    for (i in 1:nrow(H)) {
+      H[i,] <- Get.Hydrograph(RD, PU, -21:21+Ev[i])
+    }
+  }
+
+  R <- rain[Ev]
+  I <- apply(H,1,max)*R
+  fit <- lm(I/1e3~R)
+  r2 <- round(cor(R,I),2)
+  Rt <- round(coef(fit)[2],2)
+
+  RDII <- c(Rt, r2)
+  names(RDII) <- c("Rt", "r2")
+
+  model <- list("DWF (GPD)"=DWF, "GWI (GPD)"=GWI, "RDII (GPD/Inch)"=RDII)
+
+  return(model)
+}
