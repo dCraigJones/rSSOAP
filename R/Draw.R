@@ -185,12 +185,12 @@ Get.Summary <- function(date, flow, rain, H=NA) {
   I <- apply(H,1,max)*R
   fit <- lm(I/1e3~R)
   r2 <- round(cor(R,I),2)
-  Rt <- round(coef(fit)[2],2)
+  Rt <- round(coef(fit)[2],2)*1e3
 
   RDII <- c(Rt, r2)
   names(RDII) <- c("Rt", "r2")
 
-  model <- list("DWF (GPD)"=DWF, "GWI (GPD)"=GWI, "RDII (GPD/Inch)"=RDII)
+  model <- list("DWF (GPD)"=DWF, "GWI (GPD)"=GWI, "RDII (GPD/Inch)"=RDII, "UH (GPD/Inch)"=H)
 
   return(model)
 }
