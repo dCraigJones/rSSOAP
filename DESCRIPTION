@@ -1,6 +1,6 @@
 Package: rSSOAP
 Title: rSSOAP
-Version: 0.0.0.9000
+Version: 0.0.0.9100
 Author@R: person("Jones", "D. Craig", email="jones.dcraig@gmail.com", role=c("aut", "cre"))
 Author: D. Craig Jones [aut, cre]
 Maintainer: D. Craig Jones <jones.dcraig@gmail.com>

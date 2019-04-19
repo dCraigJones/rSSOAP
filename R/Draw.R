@@ -100,16 +100,30 @@ Draw.Panels <- function(date, flow, rain, H=NA) {
     )
 
     lines(date, rain*Max.Daily.Flow/10, type="h", col="blue")
+
+    # Axis Label - Month/Year
     Month <- c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D")
 
-    axis(1, at=date[which(lubridate::day(date)==1)], labels=rep(Month,2))
-    axis(1, at=date[c(which(lubridate::yday(date)==1),length(date))], labels=c(2017,2018,2019), line=2, lwd=0)
+    dd <- date[which(lubridate::day(date)==1)]
+    dl <- Month[lubridate::month(dd)]
+
+    axis(1, at=dd, labels=dl)
+
+    yd <- which(lubridate::yday(date)==1)
+    yl <- lubridate::year(date[yd])
+
+    axis(1, at=date[yd], labels=yl, line=2, lwd=0)
+
+    # Axis Labels - Daily Flow/Rain
     axis(2)
     axis(4, at=seq(0,Max.Daily.Flow,length.out=6), labels=seq(0,10,2))
 
     mtext("Rain (inches)", side=4, line=3, cex=0.7)
+
+
     box(lwd=1)
 
+    # Reference Lines
     mDWF <- (DWF$weekday+DWF$weekend)/2
     MA <- unname(max(DWF)+quantile(GWI,0.9)+Rt*5*1e3)
     Jax5YR <- unname(max(DWF)+quantile(GWI,0.9)+Rt*6.5*1e3)
@@ -186,9 +200,11 @@ Get.Summary <- function(date, flow, rain, H=NA) {
   fit <- lm(I/1e3~R)
   r2 <- round(cor(R,I),2)
   Rt <- round(coef(fit)[2],2)*1e3
+  y <- round(coef(fit)[1],2)*1e3
+  IA <- -y/Rt
 
-  RDII <- c(Rt, r2)
-  names(RDII) <- c("Rt", "r2")
+  RDII <- c(IA, Rt, r2)
+  names(RDII) <- c("IA", "Rt", "r2")
 
   model <- list("DWF (GPD)"=DWF, "GWI (GPD)"=GWI, "RDII (GPD/Inch)"=RDII, "UH (GPD/Inch)"=H)
 
