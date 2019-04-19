@@ -197,14 +197,15 @@ Get.Summary <- function(date, flow, rain, H=NA) {
 
   R <- rain[Ev]
   I <- apply(H,1,max)*R
+  mean_Rt <- apply(H,1,mean)
   fit <- lm(I/1e3~R)
   r2 <- round(cor(R,I),2)
   Rt <- round(coef(fit)[2],2)*1e3
   y <- round(coef(fit)[1],2)*1e3
   IA <- -y/Rt
 
-  RDII <- c(IA, Rt, r2)
-  names(RDII) <- c("IA", "Rt", "r2")
+  RDII <- c(IA, Rt, r2, mean_Rt)
+  names(RDII) <- c("Initial Abstraction (in)", "Total Runoff (GPD/inch)", "r2", "Mean Runoff (GPD/inch)")
 
   model <- list("DWF (GPD)"=DWF, "GWI (GPD)"=GWI, "RDII (GPD/Inch)"=RDII, "UH (GPD/Inch)"=H)
 
