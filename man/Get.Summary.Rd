@@ -23,5 +23,5 @@ Summarize Wet-Weather Flow
 }
 \examples{
 data(DF)
-Get.Summary(DF$date, DF$Hollybrook, DF$rain)
+\dontrun{Get.Summary(DF$date, DF$Hollybrook, DF$rain)}
 }

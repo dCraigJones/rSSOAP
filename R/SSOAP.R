@@ -230,7 +230,7 @@ Get.Cost <- function(Q, PU, DateRange, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, 
 #' Ev <- Get.Events(DF$date, DF$Barnes, DF$rain)
 #' RD <- Get.RDII(DF$date, DF$Barnes, DF$rain)
 #' PU <- Get.Rain(DF$rain)
-#' Get.Hydrograph(RD, PU, -21:21+Ev[1])
+#' \dontrun{Get.Hydrograph(RD, PU, -21:21+Ev[1])}
 Get.Hydrograph <- function(Q,PU,DateRange) {
   max.flow <- max(Q)
 

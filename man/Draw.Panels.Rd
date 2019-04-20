@@ -23,5 +23,5 @@ Draw 4-panel graph
 }
 \examples{
 data(DF)
-H <- Draw.Panels(DF$date, DF$Hollybrook, DF$rain)
+\dontrun{Draw.Panels(DF$date, DF$Hollybrook, DF$rain)}
 }

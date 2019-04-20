@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' data(DF)
-#' H <- Draw.Panels(DF$date, DF$Hollybrook, DF$rain)
+#' \dontrun{Draw.Panels(DF$date, DF$Hollybrook, DF$rain)}
 Draw.Panels <- function(date, flow, rain, H=NA) {
     Max.Daily.Flow = ceiling(max(flow)/1e6)
 
@@ -170,7 +170,7 @@ Draw.Panels <- function(date, flow, rain, H=NA) {
 #'
 #' @examples
 #' data(DF)
-#' Get.Summary(DF$date, DF$Hollybrook, DF$rain)
+#' \dontrun{Get.Summary(DF$date, DF$Hollybrook, DF$rain)}
 Get.Summary <- function(date, flow, rain, H=NA) {
   DWF <- Get.DWF(date, flow, rain)
 
