@@ -4,7 +4,8 @@
 \alias{Get.Events}
 \title{Identify major RDII events}
 \usage{
-Get.Events(date, flow, rain)
+Get.Events(date, flow, rain, min.rain = 3, wet.days = 7,
+  min.event = 1, min.sd = 2, max.sd = 99)
 }
 \arguments{
 \item{date}{vector of date for flow and rain data}
@@ -12,6 +13,16 @@ Get.Events(date, flow, rain)
 \item{flow}{vector of flow data, in GPD}
 
 \item{rain}{vector of rain, in inches}
+
+\item{min.rain}{Minimum Rainfall, inches, over the preceeding number of _wet.days_ to register a wet event}
+
+\item{wet.days}{Preceeding number of days for event to register given _min.rain_ is exceeded}
+
+\item{min.event}{Minimum Rainfall, inches, for the day to register as an event}
+
+\item{min.sd}{Minimum number of standard deviations flow must exceed to register}
+
+\item{max.sd}{Maximum number of standard deviations flow can have to register}
 }
 \value{
 vector of significant, single day events

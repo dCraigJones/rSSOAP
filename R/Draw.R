@@ -33,7 +33,7 @@ Draw.Panels <- function(date, flow, rain, H=NA) {
 
     RD <- Get.RDII(date, flow, rain)
 
-    PU <- Get.Rain(rain)
+    PU <- Lag.Rain(rain)
 
     if(anyNA(H)) {
       H <- matrix(c(rep(0,15*length(Ev))), ncol=15)
@@ -185,7 +185,7 @@ Get.Summary <- function(date, flow, rain, H=NA) {
 
   RD <- Get.RDII(date, flow, rain)
 
-  PU <- Get.Rain(rain)
+  PU <- Lag.Rain(rain)
 
   if(anyNA(H)) {
     H <- matrix(c(rep(0,15*length(Ev))), ncol=15)

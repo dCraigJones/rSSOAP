@@ -23,6 +23,6 @@ Get Hydrograph
 data(DF)
 Ev <- Get.Events(DF$date, DF$Barnes, DF$rain)
 RD <- Get.RDII(DF$date, DF$Barnes, DF$rain)
-PU <- Get.Rain(DF$rain)
+PU <- Lag.Rain(DF$rain)
 \dontrun{Get.Hydrograph(RD, PU, -21:21+Ev[1])}
 }
