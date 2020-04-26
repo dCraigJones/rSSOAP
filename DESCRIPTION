@@ -1,6 +1,6 @@
 Package: rSSOAP
 Title: rSSOAP
-Version: 0.1.0
+Version: 0.2
 Author@R: person("Jones", "D. Craig", email="jones.dcraig@gmail.com", role=c("aut", "cre"))
 Author: D. Craig Jones [aut, cre]
 Maintainer: D. Craig Jones <jones.dcraig@gmail.com>
@@ -12,5 +12,7 @@ LazyData: true
 Imports: timeDate,
          lubridate,
          zoo,
+         vars
+Suggests:
          GA
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

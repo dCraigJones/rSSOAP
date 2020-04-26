@@ -14,8 +14,8 @@
 #'
 #' @examples
 #' data(DF)
-#' Get.DWF(DF$date, DF$Buffalo, DF$rain)
-Get.DWF <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.long=1, dry.days.long=14, max.stdev=0.5) {
+#' induce_daily_dwf(DF$date, DF$Buffalo, DF$rain)
+induce_daily_dwf <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.long=1, dry.days.long=14, max.stdev=0.5) {
   DWF.amc.short <- !filter(rain, rep(1/dry.days.short,dry.days.short))>max.rain.short
   DWF.amc.short[is.na(DWF.amc.short)] <- FALSE
 
@@ -55,9 +55,9 @@ Get.DWF <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.
 #'
 #' @examples
 #' data(DF)
-#' Get.DWF(DF$date, DF$Buffalo, DF$rain)
-Get.WWF <- function(date,flow,rain) {
-  DWF <- Get.DWF(date,flow,rain)
+#' induce_daily_wwf(DF$date, DF$Buffalo, DF$rain)
+induce_daily_wwf <- function(date,flow,rain) {
+  DWF <- induce_daily_dwf(date,flow,rain)
   is.wkd <- timeDate::isWeekday(date)
 
   . <- flow
@@ -79,10 +79,10 @@ Get.WWF <- function(date,flow,rain) {
 #'
 #' @examples
 #' data(DF)
-#' Get.GWI(DF$date, DF$Buffalo, DF$rain)
-Get.GWI <- function(date, flow, rain) {
+#' induce_daily_gwi(DF$date, DF$Buffalo, DF$rain)
+induce_daily_gwi <- function(date, flow, rain) {
 
-  delta <- Get.WWF(date, flow, rain)
+  delta <- induce_daily_wwf(date, flow, rain)
 
   GWI <- zoo::rollapply(delta, 29, quantile, prob=0.05)
   GWI <- c(rep(0,14), GWI, rep(0,14))
@@ -102,45 +102,15 @@ Get.GWI <- function(date, flow, rain) {
 #'
 #' @examples
 #' data(DF)
-#' Get.RDII(DF$date, DF$Buffalo, DF$rain)
-Get.RDII <- function(date, flow, rain) {
-  flow <- Get.WWF(date, flow, rain) - Get.GWI(date, flow, rain)
+#' induce_daily_rdii(DF$date, DF$Buffalo, DF$rain)
+induce_daily_rdii <- function(date, flow, rain) {
+  flow <- induce_daily_wwf(date, flow, rain) - induce_daily_gwi(date, flow, rain)
 
   return(flow)
 
 }
 
-#' Identify major RDII events
-#'
-#' @param date vector of date for flow and rain data
-#' @param flow vector of flow data, in GPD
-#' @param rain vector of rain, in inches
-#' @param min.rain Minimum Rainfall, inches, over the preceeding number of _wet.days_ to register a wet event
-#' @param wet.days Preceeding number of days for event to register given _min.rain_ is exceeded
-#' @param min.event Minimum Rainfall, inches, for the day to register as an event
-#' @param min.sd Minimum number of standard deviations flow must exceed to register
-#' @param max.sd Maximum number of standard deviations flow can have to register
-#'
-#' @return vector of significant, single day events
-#' @export
-#'
-#' @examples
-#' data(DF)
-#' Get.Events(DF$date, DF$Buffalo, DF$rain)
-Get.Events <- function(date,flow,rain, min.rain=3, wet.days=7,min.event=1, min.sd=2, max.sd=99) {
 
-  flow <- Get.RDII(date, flow, rain)
-
-  WWF.amc <- filter(rain, rep(1/wet.days,wet.days))*wet.days>=min.rain
-  WWF.event <- rain>=min.event
-  WWF.sd.min <- flow>(mean(flow)+min.sd*sd(flow))
-  WWF.sd.max <- flow<(mean(flow)+max.sd*sd(flow))
-
-  WWF.use <- WWF.amc & WWF.event & WWF.sd.min & WWF.sd.max
-
-  return(unname(which(WWF.use)))
-
-}
 
 
 
@@ -173,8 +143,8 @@ Get.Events <- function(date,flow,rain, min.rain=3, wet.days=7,min.event=1, min.s
 #'
 #' @examples
 #' data(DF)
-#' Lag.Rain(DF$rain)
-Lag.Rain <- function(P) {
+#' lag_rain(DF$rain)
+lag_rain <- function(P) {
   # Remove NA
   P[is.na(P)] <- 0
 
@@ -194,68 +164,47 @@ Lag.Rain <- function(P) {
   return(PU)
 }
 
-#' Cost Function for GA optimizer
-#'
-#' @param Q Daily flow, in GPD
-#' @param PU Square rainfall matrix
-#' @param DateRange Time Window for analysis
-#' @param x1 Day 01
-#' @param x2 Day 02
-#' @param x3 Day 03
-#' @param x4 ...
-#' @param x5 ...
-#' @param x6 ...
-#' @param x7 ...
-#' @param x8 ...
-#' @param x9 ...
-#' @param x10 ...
-#' @param x11 ...
-#' @param x12 ...
-#' @param x13 Day 13
-#' @param x14 Day 14
-#' @param x15 Day 15
-#'
-#' @return Mean-Squared Error between actual flow and hydrograph flow
-Get.Cost <- function(Q, PU, DateRange, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15) {
-  UH <- c(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15)
+induce_daily_hydrograph <- function(date, flow, rain, IA=0.5) {
+  # Get Wet-WEather Component
+  rdii <- induce_daily_rdii(date, flow, rain)
+
+  # Instead of events, use Inital Abstraction
+  r <- DF$rain
+  r[r<IA]=0
+
+  # Translate to time series for VAR
+  ii <- ts(cbind(rain, rdii))
+
+  # Estimate the model
+  var.1 <- VAR(ii, 2, type = "none")
+
+  # Calculate the IRF
+  ir.1 <- irf(var.1, impulse = "rain", response = "rdii", n.ahead = 20, ortho = FALSE)
+
+  # Return upper limit
+  uh <- ir.1$Upper$rain
+
+  return(uh)
+}
+
+convolute_matrix <- function(date, flow, rain, hydrograph) {
+  rdii <- induce_daily_rdii(date, flow, rain)
+
+  PU <- lag_rain(rain)
+  UH <- hydrograph
   U <- matrix(c(UH, rep(0,ncol(PU)-length(UH))), ncol=1)
-
   Q.m <- PU%*%U
-  MSE <- sum((Q[DateRange]-Q.m[DateRange])^2)
 
-  return(MSE)
+  return(Q.m)
 }
 
-#' Get Hydrograph
-#'
-#' @param Q Daily flow, in GPD
-#' @param PU Square rainfall matrix
-#' @param DateRange Time Window for analysis
-#'
-#' @return 15-day Unit Hydrograph
-#' @export
-#'
-#' @examples
-#' data(DF)
-#' Ev <- Get.Events(DF$date, DF$Barnes, DF$rain)
-#' RD <- Get.RDII(DF$date, DF$Barnes, DF$rain)
-#' PU <- Lag.Rain(DF$rain)
-#' \dontrun{Get.Hydrograph(RD, PU, -21:21+Ev[1])}
-Get.Hydrograph <- function(Q,PU,DateRange) {
-  max.flow <- max(Q)
+mpe_daily <- function(date, flow, rain, hydrograph) {
+  field <- induce_daily_rdii(date, flow, rain)
+  model <- convolute_matrix(date, flow, rain, hydrograph)
 
-  A <- GA::ga(type="real-valued"
-          , fitness = function(x) - Get.Cost(Q,PU,DateRange,x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10], x[11], x[12], x[13], x[14], x[15])
-          , lower = rep(0,15)
-          , upper = c(rep(max.flow,5),rep(max.flow/2,5),rep(max.flow/4,5))
-          , popSize=100
-          , maxiter = 1000
-  )
+  residual <- field-model
 
-  U.m <- as.matrix(A@solution)
+  error <- mean(residual)/mean(flow)
 
-  retVal <- U.m[1:15]
-
-  return(retVal)
+  return(error)
 }
-
