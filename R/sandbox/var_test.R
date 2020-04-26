@@ -76,6 +76,11 @@ lines(Q.m, col="blue", lwd=2)
 
 # try at various initial abstracts to minimize error.
 
+dwf <- Get.DWF(DF$date, DF$Laura, DF$rain)
+library(tidyverse)
+
+
+wd <- wday(DF$date)
 
 
 
