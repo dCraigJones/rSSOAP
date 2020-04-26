@@ -14,8 +14,8 @@
 #'
 #' @examples
 #' data(DF)
-#' induce_daily_dwf(DF$date, DF$Buffalo, DF$rain)
-induce_daily_dwf <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.long=1, dry.days.long=14, max.stdev=0.5) {
+#' infer_daily_dwf(DF$date, DF$Buffalo, DF$rain)
+infer_daily_dwf <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.long=1, dry.days.long=14, max.stdev=0.5) {
   DWF.amc.short <- !filter(rain, rep(1/dry.days.short,dry.days.short))>max.rain.short
   DWF.amc.short[is.na(DWF.amc.short)] <- FALSE
 
@@ -55,9 +55,9 @@ induce_daily_dwf <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, 
 #'
 #' @examples
 #' data(DF)
-#' induce_daily_wwf(DF$date, DF$Buffalo, DF$rain)
-induce_daily_wwf <- function(date,flow,rain) {
-  DWF <- induce_daily_dwf(date,flow,rain)
+#' infer_daily_wwf(DF$date, DF$Buffalo, DF$rain)
+infer_daily_wwf <- function(date,flow,rain) {
+  DWF <- infer_daily_dwf(date,flow,rain)
   is.wkd <- timeDate::isWeekday(date)
 
   . <- flow
@@ -79,10 +79,10 @@ induce_daily_wwf <- function(date,flow,rain) {
 #'
 #' @examples
 #' data(DF)
-#' induce_daily_gwi(DF$date, DF$Buffalo, DF$rain)
-induce_daily_gwi <- function(date, flow, rain) {
+#' infer_daily_gwi(DF$date, DF$Buffalo, DF$rain)
+infer_daily_gwi <- function(date, flow, rain) {
 
-  delta <- induce_daily_wwf(date, flow, rain)
+  delta <- infer_daily_wwf(date, flow, rain)
 
   GWI <- zoo::rollapply(delta, 29, quantile, prob=0.05)
   GWI <- c(rep(0,14), GWI, rep(0,14))
@@ -102,9 +102,9 @@ induce_daily_gwi <- function(date, flow, rain) {
 #'
 #' @examples
 #' data(DF)
-#' induce_daily_rdii(DF$date, DF$Buffalo, DF$rain)
-induce_daily_rdii <- function(date, flow, rain) {
-  flow <- induce_daily_wwf(date, flow, rain) - induce_daily_gwi(date, flow, rain)
+#' infer_daily_rdii(DF$date, DF$Buffalo, DF$rain)
+infer_daily_rdii <- function(date, flow, rain) {
+  flow <- infer_daily_wwf(date, flow, rain) - infer_daily_gwi(date, flow, rain)
 
   return(flow)
 
@@ -164,9 +164,9 @@ lag_rain <- function(P) {
   return(PU)
 }
 
-induce_daily_hydrograph <- function(date, flow, rain, IA=0.5) {
+infer_daily_hydrograph <- function(date, flow, rain, IA=0.5) {
   # Get Wet-WEather Component
-  rdii <- induce_daily_rdii(date, flow, rain)
+  rdii <- infer_daily_rdii(date, flow, rain)
 
   # Instead of events, use Inital Abstraction
   r <- DF$rain
@@ -188,7 +188,7 @@ induce_daily_hydrograph <- function(date, flow, rain, IA=0.5) {
 }
 
 convolute_matrix <- function(date, flow, rain, hydrograph) {
-  rdii <- induce_daily_rdii(date, flow, rain)
+  rdii <- infer_daily_rdii(date, flow, rain)
 
   PU <- lag_rain(rain)
   UH <- hydrograph
@@ -199,7 +199,7 @@ convolute_matrix <- function(date, flow, rain, hydrograph) {
 }
 
 mpe_daily <- function(date, flow, rain, hydrograph) {
-  field <- induce_daily_rdii(date, flow, rain)
+  field <- infer_daily_rdii(date, flow, rain)
   model <- convolute_matrix(date, flow, rain, hydrograph)
 
   residual <- field-model
