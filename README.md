@@ -36,6 +36,7 @@ devtools::install_github("dCraigJones/n185")
   
 ### Utility Functions
 
+*work in progress*
   
 
 ## Example Workflow
@@ -47,4 +48,12 @@ devtools::install_github("dCraigJones/n185")
 ## References
 
 [1](https://www.researchgate.net/publication/287852048_Rainfall_Derived_Inflow_and_Infiltration_Modeling_Approaches) Mikalson, Daley & Guo, Yiping & J. Adams, Barry. (2012). Rainfall Derived Inflow and Infiltration Modeling Approaches. Journal of Water Management Modeling. 10.14796/JWMM.R245-08. 
+
 [2](https://nepis.epa.gov/Adobe/PDF/P1008BBP.pdf) US EPA. (2007). Computer Tools for Sanitary Sewer System Capacity Analysis and Planning. Publication No. EPA/600/R-07/111.
+
+## Other Packages
+This package is part of a water/wastewater planning toolset.  Other packages include:
+
+- [n185](https://www.github.com/dCraigJones/n185/), for visual fire flow analysis.
+- [pumpR](https://www.github.com/dCraigJones/pumpR/), for pumpstation hydraulic analysis.
+- [rSSOAP](https://www.github.com/dCraigJones/rSSOAP/), for Inflow & Infiltration Analysis.
