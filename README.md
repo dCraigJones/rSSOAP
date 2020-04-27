@@ -11,6 +11,8 @@ devtools::install_github("dCraigJones/n185")
 
 ## Usage
 *work in progress*
+
+![alt text](md/summary.jpg)
   
   
 ### Inputs (date, flow, rain)
