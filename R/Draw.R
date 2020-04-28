@@ -75,6 +75,7 @@ draw_daily_summary <- function(date, flow, rain) {
        , bty="l"
        )
 
+  title("RDII")
 
   par(mar=c(6,5,3,5)) #Btm, Left, Top, Right
   plot(date, flow/1e6
