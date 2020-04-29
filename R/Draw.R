@@ -14,7 +14,7 @@ draw_daily_summary <- function(date, flow, rain) {
 # flow <- DF$Hollybrook
 # rain <- DF$rain
 
-  Max.Daily.Flow = ceiling(max(flow)/1e6)
+  Max.Daily.Flow = ceiling(max(flow)/1e3)
 
   layout(matrix(c(1,2,3,4,4,4), ncol=2, byrow = FALSE), widths=c(1,3))
 
@@ -78,15 +78,15 @@ draw_daily_summary <- function(date, flow, rain) {
   title("RDII")
 
   par(mar=c(6,5,3,5)) #Btm, Left, Top, Right
-  plot(date, flow/1e6
+  plot(date, flow/1e3
        , lwd=1
        , type="l"
        , xaxs="i"
        , yaxs="i"
        , xlab=NA
-       , ylab="Daily Flow (MGD)"
+       , ylab="Daily Flow (kGPD)"
        , axes=FALSE
-       #, ylim=c(0,Max.Daily.Flow)
+       , ylim=c(0,Max.Daily.Flow)
   )
 
   lines(date, rain*Max.Daily.Flow/10, type="h", col="blue", lwd=2)

@@ -16,10 +16,10 @@
 #' data(DF)
 #' infer_daily_dwf(DF$date, DF$Buffalo, DF$rain)
 infer_daily_dwf <- function(date,flow,rain,max.rain.short=0, dry.days.short=7, max.rain.long=1, dry.days.long=14, max.stdev=0.5) {
-  DWF.amc.short <- !filter(rain, rep(1/dry.days.short,dry.days.short))>max.rain.short
+  DWF.amc.short <- !stats::filter(rain, rep(1/dry.days.short,dry.days.short))>max.rain.short
   DWF.amc.short[is.na(DWF.amc.short)] <- FALSE
 
-  DWF.amc.long <- !filter(rain, rep(1/dry.days.long,dry.days.long))>max.rain.long
+  DWF.amc.long <- !stats::filter(rain, rep(1/dry.days.long,dry.days.long))>max.rain.long
   DWF.amc.long[is.na(DWF.amc.long)] <- FALSE
 
   is.wkd <- timeDate::isWeekday(date)

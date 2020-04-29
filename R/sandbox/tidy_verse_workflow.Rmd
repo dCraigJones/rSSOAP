@@ -1,0 +1,141 @@
+---
+title: "Daily Inflow/Infiltration"
+output: html_notebook
+---
+
+```{r init, include=FALSE}
+load("C:/Users/Craig/Dropbox/R Library/rSSOAP/DATA/lenox.RData")
+load("C:/Users/Craig/Dropbox/R Library/rSSOAP/DATA/tidy_rain.RData")
+
+library(tidyverse); theme_set(theme_bw())
+library(lubridate)
+library(stringr)
+library(rSSOAP)
+library(zoo)
+library(vars)
+library(imputeTS)
+```
+
+```{r util, include=FALSE}
+remove_outliers <- function(rawVal, LOW_PASS = 0.99, HIGH_PASS = 0.10, SCALE = 1.5) {
+    q50 <- unname(quantile(rawVal, probs=0.50, na.rm=TRUE))
+    qmax <- unname(quantile(rawVal, probs=LOW_PASS, na.rm=TRUE))
+    qmin <- unname(quantile(rawVal, probs=HIGH_PASS, na.rm=TRUE))
+    
+    diff_min <- abs(ifelse (
+        sign(qmin)==1
+      , q50-qmin
+      , qmin-q50
+      ))
+    
+    diff_max <- qmax-q50
+    
+    MAX_DF <- q50 + diff_max*SCALE
+    MIN_DF <- q50 - diff_min*SCALE
+    
+    retVal <- rawVal
+    retVal[retVal>MAX_DF]=NA
+    retVal[retVal<MIN_DF]=NA
+    retVal <- na_interpolation(retVal, option="linear")
+    
+    return(retVal)
+}
+
+zero_offset <- function(rawVal, HIGH_PASS=0.05) {
+  ZERO_VALUE <- unname(quantile(rawVal, probs=HIGH_PASS, na.rm=TRUE))
+  retVal <- rawVal - ZERO_VALUE
+  
+  return(retVal)
+}
+```
+
+```{r load_data, include=FALSE}
+
+# convey hourly data to daily data
+rain_ <- tidy_rain %>%
+  filter(station=="SOWEST") %>%
+  mutate(date=date(datetime)) %>%
+  group_by(date) %>%
+  summarize(rain=sum(rainfall_in, na.rm=TRUE))
+
+rain_[is.na(rain_)]=0
+
+tmp <- data %>%
+  mutate(date=date(datetime)) %>%
+  filter(date<mdy("01/01/2020")) %>%
+  group_by(date) %>%
+  summarize(df=sum(flow_gpm, na.rm=TRUE)) %>%
+  left_join(rain_, by="date")
+```
+
+## Pass Data to Function
+```{r}
+date <- tmp$date
+flow <- tmp$df
+rain <- tmp$rain
+
+# within function, convert to data.frame
+df <- data.frame(date=date, flow=flow, rain=rain)
+```
+
+
+## Remove Outlier and Impute NA
+```{r}
+df$df_adj <- remove_outliers(df$flow)
+```
+
+```{r}
+infer_daily_dwf <- function(date, flow, rain
+    , MAX_RAIN_TODAY=0.25
+    , MAX_RAIN_SHORT=0.5
+    , DAY_RAIN_SHORT=7
+    , MAX_RAIN_LONG=2
+    , DAY_RAIN_LONG=14
+    , MAX_STDEV=0.5) {
+
+    MAX_FLOW <- mean(flow)+MAX_STDEV*sd(flow)
+    MIN_FLOW <- mean(flow)-MAX_STDEV*sd(flow)
+    
+    dwf <- df %>%
+      mutate(lag_short=rollapply(rain, DAY_RAIN_SHORT, sum, fill=0)) %>%
+      mutate(lag_long=rollapply(rain, DAY_RAIN_LONG, sum, fill=0)) %>%
+      filter(rain<= MAX_RAIN_TODAY & lag_short<=MAX_RAIN_SHORT & lag_long <= MAX_RAIN_LONG) %>%
+      filter(df_adj<=MAX_FLOW & df_adj >= MIN_FLOW) %>%
+      mutate(wday=wday(date)) %>%
+      group_by(wday) %>%
+      summarize(dwf=mean(df_adj))
+    
+    return(dwf)
+}
+
+infer_daily_gwi <- function(date, flow, rain) {
+    dwf <- infer_daily_dwf(date, flow, rain)
+    
+    gwi <- df %>%
+      mutate(wday=wday(date)) %>%
+      left_join(dwf, by="wday") %>%
+      mutate(dwf_adj=na_interpolation(dwf, option="linear")) %>%
+      mutate(wwf=df_adj-dwf) %>%
+      mutate(gwi=zoo::rollapply(wwf, 30, quantile, prob=0.05, fill=NA))
+    
+    retVal <- remove_outliers(zero_offset(gwi$gwi))
+    
+    return(retVal)
+}
+
+df$gwi <- infer_daily_gwi(date, flow, rain)
+
+infer_daily_bsf <- function(date, flow, rain) {
+  gwi <- infer_daily_gwi(date, flow, rain)
+  
+  diurnal <- infer_daily_dwf(date, flow-gwi, rain)
+  
+  tmp <- data.frame(date=date, flow=flow, rain=rain)
+
+  retVal <- tmp %>%
+    mutate(wday=wday(date)) %>%
+    left_join(diurnal, by=c("wday"))
+  
+  return(retVal$dwf)
+}
+```
