@@ -4,8 +4,8 @@ output: html_notebook
 ---
 
 ```{r init, include=FALSE}
-load("C:/Users/Craig/Dropbox/R Library/rSSOAP/DATA/lenox.RData")
-load("C:/Users/Craig/Dropbox/R Library/rSSOAP/DATA/tidy_rain.RData")
+load("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/data/lenox.RData")
+load("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/data/tidy_rain.RData")
 
 library(tidyverse); theme_set(theme_bw())
 library(lubridate)
@@ -138,4 +138,6 @@ infer_daily_bsf <- function(date, flow, rain) {
   
   return(retVal$dwf)
 }
+
+df$bsf <- infer_daily_bsf(date, flow, rain)
 ```
