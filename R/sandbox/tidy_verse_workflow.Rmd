@@ -95,8 +95,6 @@ df <- data.frame(date=date, flow=flow, rain=rain)
 ```
 
 
-
-
 ```{r}
 infer_daily_dwf <- function(date, flow, rain
     , MAX_RAIN_TODAY=0.25
@@ -217,7 +215,7 @@ df$rdi <- infer_daily_rdi(date, df$df_adj, rain)
 ```
 
 ```{r}
-plot(df$flow, ylim=c(0,2e6), type="l")
+plot(df$flow, ylim=c(0,50e3), type="l")
 # lines(df$gwi)
 # lines(df$bsf+df$gwi)
 # lines(df$bsf+df$gwi+df1$rdi, col="red")

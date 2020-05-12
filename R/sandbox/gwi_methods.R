@@ -1,3 +1,6 @@
+# In general work from
+# decomposition --> Hydrograph --> Trianglar Hydrograph
+
 
 # Long-Term Max Value -----------------------------------------------------
 
@@ -63,6 +66,13 @@ quantile(a$lag_gwi/a$lag, na.rm=TRUE, probs=0.95)/GWI_DUR
 r <- df$rain
 r[is.na(r)]=0
 
+# r <- rollapply(
+#   r
+#   , 3
+#   , sum
+#   , align="right"
+#   , fill=0)
+
 # Translate to time series for VAR
 ii <- ts(cbind(r, df$gwi))
 
@@ -70,14 +80,31 @@ ii <- ts(cbind(r, df$gwi))
 var.1 <- VAR(ii, 2, type = "none")
 
 # Calculate the IRF
-ir.1 <- irf(var.1, impulse = "r", response = "X", n.ahead = 30, ortho = FALSE)
+ir.1 <- irf(var.1, impulse = "r", response = "X", n.ahead = 60, ortho = FALSE)
 
 # Return upper limit
 uh <- ir.1$Upper$r
+#uh <- ir.1$r
 
-PU <- lag_rain(rain)
+PU <- lag_rain(r)
 UH <- uh
 U <- matrix(c(UH, rep(0,ncol(PU)-length(UH))), ncol=1)
 Q.m <- PU%*%U
 
 plot(df$date, df$gwi); lines(df$date, Q.m)
+
+
+# start UH2 ---------------------------------------------------------------
+
+tmp <- df %>% mutate(gwi_adj=gwi-Q.m)
+uh <- infer_daily_hydrograph(tmp$date, tmp$df_adj-tmp$gwi_adj, df$rain)
+
+PU <- lag_rain(r)
+UH <- uh
+U <- matrix(c(UH, rep(0,ncol(PU)-length(UH))), ncol=1)
+Q.m <- PU%*%U
+
+plot(tmp$date, tmp$df_adj, type="l")
+lines(tmp$date, tmp$bsf+tmp$gwi_adj+Q.m, col="red")
+
+# try to recalc BSF with reduced UH GWI

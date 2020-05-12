@@ -12,7 +12,7 @@ rain_ <- tidy_rain %>%
 rain_[is.na(rain_)]=0
 
 tmp <- export %>%
-  filter(str_detect(location, "Mer")) %>%
+  filter(str_detect(location, "Tow")) %>%
   mutate(date=date(date_qtr)) %>%
   filter(date<mdy("01/01/2020")) %>%
   filter(date>mdy("08/06/2018")) %>%
