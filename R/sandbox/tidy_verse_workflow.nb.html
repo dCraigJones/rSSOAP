@@ -186,12 +186,120 @@ $(document).ready(function () {
 <h2>Pass Data to Function</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0ZSA8LSB0bXAkZGF0ZVxuZmxvdyA8LSB0bXAkZGZcbnJhaW4gPC0gdG1wJHJhaW5cbiMgd2l0aGluIGZ1bmN0aW9uLCBjb252ZXJ0IHRvIGRhdGEuZnJhbWVcbmRmIDwtIGRhdGEuZnJhbWUoZGF0ZT1kYXRlLCBmbG93PWZsb3csIHJhaW49cmFpbilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0ZSA8LSB0bXAkZGF0ZVxuZmxvdyA8LSB0bXAkZGZcbnJhaW4gPC0gdG1wJHJhaW5cblxuIyB3aXRoaW4gZnVuY3Rpb24sIGNvbnZlcnQgdG8gZGF0YS5mcmFtZVxuZGYgPC0gZGF0YS5mcmFtZShkYXRlPWRhdGUsIGZsb3c9ZmxvdywgcmFpbj1yYWluKVxuYGBgIn0= -->
 <pre class="r"><code>date &lt;- tmp$date
 flow &lt;- tmp$df
 rain &lt;- tmp$rain
+
 # within function, convert to data.frame
 df &lt;- data.frame(date=date, flow=flow, rain=rain)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5mZXJfZGFpbHlfZHdmIDwtIGZ1bmN0aW9uKGRhdGUsIGZsb3csIHJhaW5cbiAgICAsIE1BWF9SQUlOX1RPREFZPTAuMjVcbiAgICAsIE1BWF9SQUlOX1NIT1JUPTAuNVxuICAgICwgREFZX1JBSU5fU0hPUlQ9N1xuICAgICwgTUFYX1JBSU5fTE9ORz0yXG4gICAgLCBEQVlfUkFJTl9MT05HPTE0XG4gICAgLCBNQVhfU1RERVY9MSkge1xuXG4gICAgTUFYX0ZMT1cgPC0gbWVhbihmbG93KStNQVhfU1RERVYqc2QoZmxvdylcbiAgICBNSU5fRkxPVyA8LSBtZWFuKGZsb3cpLU1BWF9TVERFVipzZChmbG93KVxuICAgIFxuICAgIGR3ZiA8LSBkZiAlPiVcbiAgICAgIG11dGF0ZShsYWdfc2hvcnQ9cm9sbGFwcGx5KHJhaW4sIERBWV9SQUlOX1NIT1JULCBzdW0sIGFsaWduPVwicmlnaHRcIiwgZmlsbD0wKSkgJT4lXG4gICAgICBtdXRhdGUobGFnX2xvbmc9cm9sbGFwcGx5KHJhaW4sIERBWV9SQUlOX0xPTkcsIHN1bSwgYWxpZ249XCJyaWdodFwiLCBmaWxsPTApKSAlPiVcbiAgICAgIGZpbHRlcihyYWluPD0gTUFYX1JBSU5fVE9EQVkgJiBsYWdfc2hvcnQ8PU1BWF9SQUlOX1NIT1JUICYgbGFnX2xvbmcgPD0gTUFYX1JBSU5fTE9ORykgJT4lXG4gICAgICBmaWx0ZXIoZGZfYWRqPD1NQVhfRkxPVyAmIGRmX2FkaiA+PSBNSU5fRkxPVykgJT4lXG4gICAgICBtdXRhdGUod2RheT13ZGF5KGRhdGUpKSAlPiVcbiAgICAgIGdyb3VwX2J5KHdkYXkpICU+JVxuICAgICAgc3VtbWFyaXplKGR3Zj1tZWFuKGRmX2FkaikpXG4gICAgXG4gICAgcmV0dXJuKGR3Zilcbn1cblxuaW5mZXJfZGFpbHlfZ3dpIDwtIGZ1bmN0aW9uKGRhdGUsIGZsb3csIHJhaW4sIEhJR0hfUEFTUz0wLjEpIHtcbiAgICBkd2YgPC0gaW5mZXJfZGFpbHlfZHdmKGRhdGUsIGZsb3csIHJhaW4pXG4gICAgXG4gICAgZ3dpIDwtIGRmICU+JVxuICAgICAgbXV0YXRlKHdkYXk9d2RheShkYXRlKSkgJT4lXG4gICAgICBsZWZ0X2pvaW4oZHdmLCBieT1cIndkYXlcIikgJT4lXG4gICAgICBtdXRhdGUoZHdmX2Fkaj1uYV9pbnRlcnBvbGF0aW9uKGR3Ziwgb3B0aW9uPVwibGluZWFyXCIpKSAlPiVcbiAgICAgIG11dGF0ZSh3d2Y9ZGZfYWRqLWR3ZikgJT4lXG4gICAgICBtdXRhdGUoZ3dpPXpvbzo6cm9sbGFwcGx5KHd3ZiwgMzAsIGFsaWduPVwicmlnaHRcIiwgcXVhbnRpbGUsIHByb2I9SElHSF9QQVNTLCBmaWxsPU5BKSlcbiAgICBcbiAgICByZXRWYWwgPC0gcmVtb3ZlX291dGxpZXJzKHplcm9fb2Zmc2V0KGd3aSRnd2kpKVxuICAgIFxuICAgIHJldHVybihyZXRWYWwpXG59XG5cbmluZmVyX2RhaWx5X2JzZiA8LSBmdW5jdGlvbihkYXRlLCBmbG93LCByYWluKSB7XG4gIGd3aSA8LSBpbmZlcl9kYWlseV9nd2koZGF0ZSwgZmxvdywgcmFpbilcbiAgXG4gIGRpdXJuYWwgPC0gaW5mZXJfZGFpbHlfZHdmKGRhdGUsIGZsb3ctZ3dpLCByYWluKVxuICBcbiAgdG1wIDwtIGRhdGEuZnJhbWUoZGF0ZT1kYXRlLCBmbG93PWZsb3csIHJhaW49cmFpbilcblxuICByZXRWYWwgPC0gdG1wICU+JVxuICAgIG11dGF0ZSh3ZGF5PXdkYXkoZGF0ZSkpICU+JVxuICAgIGxlZnRfam9pbihkaXVybmFsLCBieT1jKFwid2RheVwiKSlcbiAgXG4gIHJldHVybihyZXRWYWwkZHdmKVxufVxuXG5cbmRmJGJzZiA8LSBpbmZlcl9kYWlseV9ic2YoZGF0ZSwgZmxvdywgcmFpbilcbmBgYCJ9 -->
+<pre class="r"><code>infer_daily_dwf &lt;- function(date, flow, rain
+    , MAX_RAIN_TODAY=0.25
+    , MAX_RAIN_SHORT=0.5
+    , DAY_RAIN_SHORT=7
+    , MAX_RAIN_LONG=2
+    , DAY_RAIN_LONG=14
+    , MAX_STDEV=1) {
+
+    MAX_FLOW &lt;- mean(flow)+MAX_STDEV*sd(flow)
+    MIN_FLOW &lt;- mean(flow)-MAX_STDEV*sd(flow)
+    
+    dwf &lt;- df %&gt;%
+      mutate(lag_short=rollapply(rain, DAY_RAIN_SHORT, sum, align=&quot;right&quot;, fill=0)) %&gt;%
+      mutate(lag_long=rollapply(rain, DAY_RAIN_LONG, sum, align=&quot;right&quot;, fill=0)) %&gt;%
+      filter(rain&lt;= MAX_RAIN_TODAY &amp; lag_short&lt;=MAX_RAIN_SHORT &amp; lag_long &lt;= MAX_RAIN_LONG) %&gt;%
+      filter(df_adj&lt;=MAX_FLOW &amp; df_adj &gt;= MIN_FLOW) %&gt;%
+      mutate(wday=wday(date)) %&gt;%
+      group_by(wday) %&gt;%
+      summarize(dwf=mean(df_adj))
+    
+    return(dwf)
+}
+
+infer_daily_gwi &lt;- function(date, flow, rain, HIGH_PASS=0.1) {
+    dwf &lt;- infer_daily_dwf(date, flow, rain)
+    
+    gwi &lt;- df %&gt;%
+      mutate(wday=wday(date)) %&gt;%
+      left_join(dwf, by=&quot;wday&quot;) %&gt;%
+      mutate(dwf_adj=na_interpolation(dwf, option=&quot;linear&quot;)) %&gt;%
+      mutate(wwf=df_adj-dwf) %&gt;%
+      mutate(gwi=zoo::rollapply(wwf, 30, align=&quot;right&quot;, quantile, prob=HIGH_PASS, fill=NA))
+    
+    retVal &lt;- remove_outliers(zero_offset(gwi$gwi))
+    
+    return(retVal)
+}
+
+infer_daily_bsf &lt;- function(date, flow, rain) {
+  gwi &lt;- infer_daily_gwi(date, flow, rain)
+  
+  diurnal &lt;- infer_daily_dwf(date, flow-gwi, rain)
+  
+  tmp &lt;- data.frame(date=date, flow=flow, rain=rain)
+
+  retVal &lt;- tmp %&gt;%
+    mutate(wday=wday(date)) %&gt;%
+    left_join(diurnal, by=c(&quot;wday&quot;))
+  
+  return(retVal$dwf)
+}
+
+
+df$bsf &lt;- infer_daily_bsf(date, flow, rain)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5mZXJfZGFpbHlfaHlkcm9ncmFwaCA8LSBmdW5jdGlvbihkYXRlLCBmbG93LCByYWluLCBJTklUSUFMX0FCU1RSQUNUSU9OID0gMC41KSB7XG4gIFxuICBcbiAgZmxvdyA8LSBkZiRkZl9hZGpcblxuICBnd2kgPC0gaW5mZXJfZGFpbHlfZ3dpKGRhdGUsIGZsb3csIHJhaW4pXG4gIGJzZiA8LSBpbmZlcl9kYWlseV9ic2YoZGF0ZSwgZmxvdywgcmFpbilcblxuICByZGkgPC0gZmxvdyAtIGd3aSAtIGJzZlxuICBcbiAgciA8LSByYWluXG4gIHJbcjxJTklUSUFMX0FCU1RSQUNUSU9OXT0wXG4gIHJbaXMubmEocildPTBcblxuICAjIFRyYW5zbGF0ZSB0byB0aW1lIHNlcmllcyBmb3IgVkFSXG4gIGlpIDwtIHRzKGNiaW5kKHIsIHJkaSkpXG5cbiAgIyBFc3RpbWF0ZSB0aGUgbW9kZWxcbiAgdmFyLjEgPC0gVkFSKGlpLCAyLCB0eXBlID0gXCJub25lXCIpXG5cbiAgIyBDYWxjdWxhdGUgdGhlIElSRlxuICBpci4xIDwtIGlyZih2YXIuMSwgaW1wdWxzZSA9IFwiclwiLCByZXNwb25zZSA9IFwicmRpXCIsIG4uYWhlYWQgPSAyMCwgb3J0aG8gPSBGQUxTRSlcblxuICAjIFJldHVybiB1cHBlciBsaW1pdFxuICB1aCA8LSBpci4xJFVwcGVyJHJcblxuIHJldHVybih1aClcbn1cbiAgXG5pbmZlcl9kYWlseV9yZGkgPC0gZnVuY3Rpb24oZGF0ZSwgZmxvdywgcmFpbiwgSU5JVElBTF9BQlNUUkFDVElPTj0wLjUpIHtcbiAgXG4gIHVoIDwtIGluZmVyX2RhaWx5X2h5ZHJvZ3JhcGgoZGF0ZSwgZmxvdywgcmFpbiwgSU5JVElBTF9BQlNUUkFDVElPTilcbiAgXG4gIFBVIDwtIGxhZ19yYWluKHJhaW4pXG4gIFVIIDwtIHVoXG4gIFUgPC0gbWF0cml4KGMoVUgsIHJlcCgwLG5jb2woUFUpLWxlbmd0aChVSCkpKSwgbmNvbD0xKVxuICBRLm0gPC0gUFUlKiVVXG4gIFxuICByZXR1cm4oUS5tKVxufVxuXG5cbmBgYCJ9 -->
+<pre class="r"><code>infer_daily_hydrograph &lt;- function(date, flow, rain, INITIAL_ABSTRACTION = 0.5) {
+  
+  
+  flow &lt;- df$df_adj
+
+  gwi &lt;- infer_daily_gwi(date, flow, rain)
+  bsf &lt;- infer_daily_bsf(date, flow, rain)
+
+  rdi &lt;- flow - gwi - bsf
+  
+  r &lt;- rain
+  r[r&lt;INITIAL_ABSTRACTION]=0
+  r[is.na(r)]=0
+
+  # Translate to time series for VAR
+  ii &lt;- ts(cbind(r, rdi))
+
+  # Estimate the model
+  var.1 &lt;- VAR(ii, 2, type = &quot;none&quot;)
+
+  # Calculate the IRF
+  ir.1 &lt;- irf(var.1, impulse = &quot;r&quot;, response = &quot;rdi&quot;, n.ahead = 20, ortho = FALSE)
+
+  # Return upper limit
+  uh &lt;- ir.1$Upper$r
+
+ return(uh)
+}
+  
+infer_daily_rdi &lt;- function(date, flow, rain, INITIAL_ABSTRACTION=0.5) {
+  
+  uh &lt;- infer_daily_hydrograph(date, flow, rain, INITIAL_ABSTRACTION)
+  
+  PU &lt;- lag_rain(rain)
+  UH &lt;- uh
+  U &lt;- matrix(c(UH, rep(0,ncol(PU)-length(UH))), ncol=1)
+  Q.m &lt;- PU%*%U
+  
+  return(Q.m)
+}
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -207,61 +315,43 @@ df &lt;- data.frame(date=date, flow=flow, rain=rain)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5mZXJfZGFpbHlfZHdmIDwtIGZ1bmN0aW9uKGRhdGUsIGZsb3csIHJhaW5cbiAgICAsIE1BWF9SQUlOX1RPREFZPTAuMjVcbiAgICAsIE1BWF9SQUlOX1NIT1JUPTAuNVxuICAgICwgREFZX1JBSU5fU0hPUlQ9N1xuICAgICwgTUFYX1JBSU5fTE9ORz0yXG4gICAgLCBEQVlfUkFJTl9MT05HPTE0XG4gICAgLCBNQVhfU1RERVY9MC41KSB7XG4gICAgTUFYX0ZMT1cgPC0gbWVhbihmbG93KStNQVhfU1RERVYqc2QoZmxvdylcbiAgICBNSU5fRkxPVyA8LSBtZWFuKGZsb3cpLU1BWF9TVERFVipzZChmbG93KVxuICAgIFxuICAgIGR3ZiA8LSBkZiAlPiVcbiAgICAgIG11dGF0ZShsYWdfc2hvcnQ9cm9sbGFwcGx5KHJhaW4sIERBWV9SQUlOX1NIT1JULCBzdW0sIGZpbGw9MCkpICU+JVxuICAgICAgbXV0YXRlKGxhZ19sb25nPXJvbGxhcHBseShyYWluLCBEQVlfUkFJTl9MT05HLCBzdW0sIGZpbGw9MCkpICU+JVxuICAgICAgZmlsdGVyKHJhaW48PSBNQVhfUkFJTl9UT0RBWSAmIGxhZ19zaG9ydDw9TUFYX1JBSU5fU0hPUlQgJiBsYWdfbG9uZyA8PSBNQVhfUkFJTl9MT05HKSAlPiVcbiAgICAgIGZpbHRlcihkZl9hZGo8PU1BWF9GTE9XICYgZGZfYWRqID49IE1JTl9GTE9XKSAlPiVcbiAgICAgIG11dGF0ZSh3ZGF5PXdkYXkoZGF0ZSkpICU+JVxuICAgICAgZ3JvdXBfYnkod2RheSkgJT4lXG4gICAgICBzdW1tYXJpemUoZHdmPW1lYW4oZGZfYWRqKSlcbiAgICBcbiAgICByZXR1cm4oZHdmKVxufVxuaW5mZXJfZGFpbHlfZ3dpIDwtIGZ1bmN0aW9uKGRhdGUsIGZsb3csIHJhaW4pIHtcbiAgICBkd2YgPC0gaW5mZXJfZGFpbHlfZHdmKGRhdGUsIGZsb3csIHJhaW4pXG4gICAgXG4gICAgZ3dpIDwtIGRmICU+JVxuICAgICAgbXV0YXRlKHdkYXk9d2RheShkYXRlKSkgJT4lXG4gICAgICBsZWZ0X2pvaW4oZHdmLCBieT1cIndkYXlcIikgJT4lXG4gICAgICBtdXRhdGUoZHdmX2Fkaj1uYV9pbnRlcnBvbGF0aW9uKGR3Ziwgb3B0aW9uPVwibGluZWFyXCIpKSAlPiVcbiAgICAgIG11dGF0ZSh3d2Y9ZGZfYWRqLWR3ZikgJT4lXG4gICAgICBtdXRhdGUoZ3dpPXpvbzo6cm9sbGFwcGx5KHd3ZiwgMzAsIHF1YW50aWxlLCBwcm9iPTAuMDUsIGZpbGw9TkEpKVxuICAgIFxuICAgIHJldFZhbCA8LSByZW1vdmVfb3V0bGllcnMoemVyb19vZmZzZXQoZ3dpJGd3aSkpXG4gICAgXG4gICAgcmV0dXJuKHJldFZhbClcbn1cbmRmJGd3aSA8LSBpbmZlcl9kYWlseV9nd2koZGF0ZSwgZmxvdywgcmFpbilcbmluZmVyX2RhaWx5X2JzZiA8LSBmdW5jdGlvbihkYXRlLCBmbG93LCByYWluKSB7XG4gIGd3aSA8LSBpbmZlcl9kYWlseV9nd2koZGF0ZSwgZmxvdywgcmFpbilcbiAgXG4gIGRpdXJuYWwgPC0gaW5mZXJfZGFpbHlfZHdmKGRhdGUsIGZsb3ctZ3dpLCByYWluKVxuICBcbiAgdG1wIDwtIGRhdGEuZnJhbWUoZGF0ZT1kYXRlLCBmbG93PWZsb3csIHJhaW49cmFpbilcbiAgcmV0VmFsIDwtIHRtcCAlPiVcbiAgICBtdXRhdGUod2RheT13ZGF5KGRhdGUpKSAlPiVcbiAgICBsZWZ0X2pvaW4oZGl1cm5hbCwgYnk9YyhcIndkYXlcIikpXG4gIFxuICByZXR1cm4ocmV0VmFsJGR3Zilcbn1cbmRmJGJzZiA8LSBpbmZlcl9kYWlseV9ic2YoZGF0ZSwgZmxvdywgcmFpbilcbmBgYCJ9 -->
-<pre class="r"><code>infer_daily_dwf &lt;- function(date, flow, rain
-    , MAX_RAIN_TODAY=0.25
-    , MAX_RAIN_SHORT=0.5
-    , DAY_RAIN_SHORT=7
-    , MAX_RAIN_LONG=2
-    , DAY_RAIN_LONG=14
-    , MAX_STDEV=0.5) {
-    MAX_FLOW &lt;- mean(flow)+MAX_STDEV*sd(flow)
-    MIN_FLOW &lt;- mean(flow)-MAX_STDEV*sd(flow)
-    
-    dwf &lt;- df %&gt;%
-      mutate(lag_short=rollapply(rain, DAY_RAIN_SHORT, sum, fill=0)) %&gt;%
-      mutate(lag_long=rollapply(rain, DAY_RAIN_LONG, sum, fill=0)) %&gt;%
-      filter(rain&lt;= MAX_RAIN_TODAY &amp; lag_short&lt;=MAX_RAIN_SHORT &amp; lag_long &lt;= MAX_RAIN_LONG) %&gt;%
-      filter(df_adj&lt;=MAX_FLOW &amp; df_adj &gt;= MIN_FLOW) %&gt;%
-      mutate(wday=wday(date)) %&gt;%
-      group_by(wday) %&gt;%
-      summarize(dwf=mean(df_adj))
-    
-    return(dwf)
-}
-infer_daily_gwi &lt;- function(date, flow, rain) {
-    dwf &lt;- infer_daily_dwf(date, flow, rain)
-    
-    gwi &lt;- df %&gt;%
-      mutate(wday=wday(date)) %&gt;%
-      left_join(dwf, by=&quot;wday&quot;) %&gt;%
-      mutate(dwf_adj=na_interpolation(dwf, option=&quot;linear&quot;)) %&gt;%
-      mutate(wwf=df_adj-dwf) %&gt;%
-      mutate(gwi=zoo::rollapply(wwf, 30, quantile, prob=0.05, fill=NA))
-    
-    retVal &lt;- remove_outliers(zero_offset(gwi$gwi))
-    
-    return(retVal)
-}
-df$gwi &lt;- infer_daily_gwi(date, flow, rain)
-infer_daily_bsf &lt;- function(date, flow, rain) {
-  gwi &lt;- infer_daily_gwi(date, flow, rain)
-  
-  diurnal &lt;- infer_daily_dwf(date, flow-gwi, rain)
-  
-  tmp &lt;- data.frame(date=date, flow=flow, rain=rain)
-  retVal &lt;- tmp %&gt;%
-    mutate(wday=wday(date)) %&gt;%
-    left_join(diurnal, by=c(&quot;wday&quot;))
-  
-  return(retVal$dwf)
-}
-df$bsf &lt;- infer_daily_bsf(date, flow, rain)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYkZ3dpIDwtIGluZmVyX2RhaWx5X2d3aShkYXRlLCBkZiRkZl9hZGosIHJhaW4pXG5kZiRic2YgPC0gaW5mZXJfZGFpbHlfYnNmKGRhdGUsIGRmJGRmX2FkaiwgcmFpbilcbmRmJHJkaSA8LSBpbmZlcl9kYWlseV9yZGkoZGF0ZSwgZGYkZGZfYWRqLCByYWluKVxuIyBcbiMgZGYxJHJkaSA8LSBpbmZlcl9kYWlseV9yZGkoZGF0ZSwgZGYkZGZfYWRqLCByYWluLCAwKVxuIyBkZjIkcmRpIDwtIGluZmVyX2RhaWx5X3JkaShkYXRlLCBkZiRkZl9hZGosIHJhaW4sIDAuNSlcbiMgZGYzJHJkaSA8LSBpbmZlcl9kYWlseV9yZGkoZGF0ZSwgZGYkZGZfYWRqLCByYWluLCAxKVxuIyBkZjQkcmRpIDwtIGluZmVyX2RhaWx5X3JkaShkYXRlLCBkZiRkZl9hZGosIHJhaW4sIDEuNSlcbmBgYCJ9 -->
+<pre class="r"><code>df$gwi &lt;- infer_daily_gwi(date, df$df_adj, rain)
+df$bsf &lt;- infer_daily_bsf(date, df$df_adj, rain)
+df$rdi &lt;- infer_daily_rdi(date, df$df_adj, rain)
+# 
+# df1$rdi &lt;- infer_daily_rdi(date, df$df_adj, rain, 0)
+# df2$rdi &lt;- infer_daily_rdi(date, df$df_adj, rain, 0.5)
+# df3$rdi &lt;- infer_daily_rdi(date, df$df_adj, rain, 1)
+# df4$rdi &lt;- infer_daily_rdi(date, df$df_adj, rain, 1.5)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChkZiRmbG93LCB5bGltPWMoMCwyZTYpLCB0eXBlPVwibFwiKVxuIyBsaW5lcyhkZiRnd2kpXG4jIGxpbmVzKGRmJGJzZitkZiRnd2kpXG4jIGxpbmVzKGRmJGJzZitkZiRnd2krZGYxJHJkaSwgY29sPVwicmVkXCIpXG4jIGxpbmVzKGRmJGJzZitkZiRnd2krZGYyJHJkaSwgY29sPVwiYmx1ZVwiKVxuIyBsaW5lcyhkZiRic2YrZGYkZ3dpK2RmMyRyZGksIGNvbD1cImdyZWVuXCIpXG4jIGxpbmVzKGRmJGJzZitkZiRnd2krZGY0JHJkaSwgY29sPVwiY3lhblwiKVxuYGBgIn0= -->
+<pre class="r"><code>plot(df$flow, ylim=c(0,2e6), type=&quot;l&quot;)
+# lines(df$gwi)
+# lines(df$bsf+df$gwi)
+# lines(df$bsf+df$gwi+df1$rdi, col=&quot;red&quot;)
+# lines(df$bsf+df$gwi+df2$rdi, col=&quot;blue&quot;)
+# lines(df$bsf+df$gwi+df3$rdi, col=&quot;green&quot;)
+# lines(df$bsf+df$gwi+df4$rdi, col=&quot;cyan&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYgJT4lXG4gIGdncGxvdChhZXMoeD1kYXRlLCB5PWZsb3cpKSArIFxuICBnZW9tX2xpbmUoKSArXG4gIGdlb21fbGluZShhZXMoeT1ic2YrZ3dpK3JkaSksIGNvbD1cInJlZFwiKVxuYGBgIn0= -->
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(x=date, y=flow)) + 
+  geom_line() +
+  geom_line(aes(y=bsf+gwi+rdi), col=&quot;red&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkRhaWx5IEluZmxvdy9JbmZpbHRyYXRpb24iDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7ciBpbml0LCBpbmNsdWRlPUZBTFNFfQ0KbG9hZCgiRzovRmluYW5jaWFsIFNlcnZpY2VzL0NvcnBvcmF0ZSBQbGFubmluZy9IeWRyYXVsaWMgTW9kZWwgRmlsZXMvUiBMaWJyYXJ5L3JTU09BUC9kYXRhL2xlbm94LlJEYXRhIikNCmxvYWQoIkc6L0ZpbmFuY2lhbCBTZXJ2aWNlcy9Db3Jwb3JhdGUgUGxhbm5pbmcvSHlkcmF1bGljIE1vZGVsIEZpbGVzL1IgTGlicmFyeS9yU1NPQVAvZGF0YS90aWR5X3JhaW4uUkRhdGEiKQ0KDQpsaWJyYXJ5KHRpZHl2ZXJzZSk7IHRoZW1lX3NldCh0aGVtZV9idygpKQ0KbGlicmFyeShsdWJyaWRhdGUpDQpsaWJyYXJ5KHN0cmluZ3IpDQpsaWJyYXJ5KHJTU09BUCkNCmxpYnJhcnkoem9vKQ0KbGlicmFyeSh2YXJzKQ0KbGlicmFyeShpbXB1dGVUUykNCmBgYA0KDQpgYGB7ciB1dGlsLCBpbmNsdWRlPUZBTFNFfQ0KcmVtb3ZlX291dGxpZXJzIDwtIGZ1bmN0aW9uKHJhd1ZhbCwgTE9XX1BBU1MgPSAwLjk5LCBISUdIX1BBU1MgPSAwLjEwLCBTQ0FMRSA9IDEuNSkgew0KICAgIHE1MCA8LSB1bm5hbWUocXVhbnRpbGUocmF3VmFsLCBwcm9icz0wLjUwLCBuYS5ybT1UUlVFKSkNCiAgICBxbWF4IDwtIHVubmFtZShxdWFudGlsZShyYXdWYWwsIHByb2JzPUxPV19QQVNTLCBuYS5ybT1UUlVFKSkNCiAgICBxbWluIDwtIHVubmFtZShxdWFudGlsZShyYXdWYWwsIHByb2JzPUhJR0hfUEFTUywgbmEucm09VFJVRSkpDQogICAgDQogICAgZGlmZl9taW4gPC0gYWJzKGlmZWxzZSAoDQogICAgICAgIHNpZ24ocW1pbik9PTENCiAgICAgICwgcTUwLXFtaW4NCiAgICAgICwgcW1pbi1xNTANCiAgICAgICkpDQogICAgDQogICAgZGlmZl9tYXggPC0gcW1heC1xNTANCiAgICANCiAgICBNQVhfREYgPC0gcTUwICsgZGlmZl9tYXgqU0NBTEUNCiAgICBNSU5fREYgPC0gcTUwIC0gZGlmZl9taW4qU0NBTEUNCiAgICANCiAgICByZXRWYWwgPC0gcmF3VmFsDQogICAgcmV0VmFsW3JldFZhbD5NQVhfREZdPU5BDQogICAgcmV0VmFsW3JldFZhbDxNSU5fREZdPU5BDQogICAgcmV0VmFsIDwtIG5hX2ludGVycG9sYXRpb24ocmV0VmFsLCBvcHRpb249ImxpbmVhciIpDQogICAgDQogICAgcmV0dXJuKHJldFZhbCkNCn0NCg0KemVyb19vZmZzZXQgPC0gZnVuY3Rpb24ocmF3VmFsLCBISUdIX1BBU1M9MC4wNSkgew0KICBaRVJPX1ZBTFVFIDwtIHVubmFtZShxdWFudGlsZShyYXdWYWwsIHByb2JzPUhJR0hfUEFTUywgbmEucm09VFJVRSkpDQogIHJldFZhbCA8LSByYXdWYWwgLSBaRVJPX1ZBTFVFDQogIA0KICByZXR1cm4ocmV0VmFsKQ0KfQ0KYGBgDQoNCmBgYHtyIGxvYWRfZGF0YSwgaW5jbHVkZT1GQUxTRX0NCg0KIyBjb252ZXkgaG91cmx5IGRhdGEgdG8gZGFpbHkgZGF0YQ0KcmFpbl8gPC0gdGlkeV9yYWluICU+JQ0KICBmaWx0ZXIoc3RhdGlvbj09IlNPV0VTVCIpICU+JQ0KICBtdXRhdGUoZGF0ZT1kYXRlKGRhdGV0aW1lKSkgJT4lDQogIGdyb3VwX2J5KGRhdGUpICU+JQ0KICBzdW1tYXJpemUocmFpbj1zdW0ocmFpbmZhbGxfaW4sIG5hLnJtPVRSVUUpKQ0KDQpyYWluX1tpcy5uYShyYWluXyldPTANCg0KdG1wIDwtIGRhdGEgJT4lDQogIG11dGF0ZShkYXRlPWRhdGUoZGF0ZXRpbWUpKSAlPiUNCiAgZmlsdGVyKGRhdGU8bWR5KCIwMS8wMS8yMDIwIikpICU+JQ0KICBncm91cF9ieShkYXRlKSAlPiUNCiAgc3VtbWFyaXplKGRmPXN1bShmbG93X2dwbSwgbmEucm09VFJVRSkpICU+JQ0KICBsZWZ0X2pvaW4ocmFpbl8sIGJ5PSJkYXRlIikNCmBgYA0KDQojIyBQYXNzIERhdGEgdG8gRnVuY3Rpb24NCmBgYHtyfQ0KZGF0ZSA8LSB0bXAkZGF0ZQ0KZmxvdyA8LSB0bXAkZGYNCnJhaW4gPC0gdG1wJHJhaW4NCg0KIyB3aXRoaW4gZnVuY3Rpb24sIGNvbnZlcnQgdG8gZGF0YS5mcmFtZQ0KZGYgPC0gZGF0YS5mcmFtZShkYXRlPWRhdGUsIGZsb3c9ZmxvdywgcmFpbj1yYWluKQ0KYGBgDQoNCg0KIyMgUmVtb3ZlIE91dGxpZXIgYW5kIEltcHV0ZSBOQQ0KYGBge3J9DQpkZiRkZl9hZGogPC0gcmVtb3ZlX291dGxpZXJzKGRmJGZsb3cpDQpgYGANCg0KYGBge3J9DQppbmZlcl9kYWlseV9kd2YgPC0gZnVuY3Rpb24oZGF0ZSwgZmxvdywgcmFpbg0KICAgICwgTUFYX1JBSU5fVE9EQVk9MC4yNQ0KICAgICwgTUFYX1JBSU5fU0hPUlQ9MC41DQogICAgLCBEQVlfUkFJTl9TSE9SVD03DQogICAgLCBNQVhfUkFJTl9MT05HPTINCiAgICAsIERBWV9SQUlOX0xPTkc9MTQNCiAgICAsIE1BWF9TVERFVj0wLjUpIHsNCg0KICAgIE1BWF9GTE9XIDwtIG1lYW4oZmxvdykrTUFYX1NUREVWKnNkKGZsb3cpDQogICAgTUlOX0ZMT1cgPC0gbWVhbihmbG93KS1NQVhfU1RERVYqc2QoZmxvdykNCiAgICANCiAgICBkd2YgPC0gZGYgJT4lDQogICAgICBtdXRhdGUobGFnX3Nob3J0PXJvbGxhcHBseShyYWluLCBEQVlfUkFJTl9TSE9SVCwgc3VtLCBmaWxsPTApKSAlPiUNCiAgICAgIG11dGF0ZShsYWdfbG9uZz1yb2xsYXBwbHkocmFpbiwgREFZX1JBSU5fTE9ORywgc3VtLCBmaWxsPTApKSAlPiUNCiAgICAgIGZpbHRlcihyYWluPD0gTUFYX1JBSU5fVE9EQVkgJiBsYWdfc2hvcnQ8PU1BWF9SQUlOX1NIT1JUICYgbGFnX2xvbmcgPD0gTUFYX1JBSU5fTE9ORykgJT4lDQogICAgICBmaWx0ZXIoZGZfYWRqPD1NQVhfRkxPVyAmIGRmX2FkaiA+PSBNSU5fRkxPVykgJT4lDQogICAgICBtdXRhdGUod2RheT13ZGF5KGRhdGUpKSAlPiUNCiAgICAgIGdyb3VwX2J5KHdkYXkpICU+JQ0KICAgICAgc3VtbWFyaXplKGR3Zj1tZWFuKGRmX2FkaikpDQogICAgDQogICAgcmV0dXJuKGR3ZikNCn0NCg0KaW5mZXJfZGFpbHlfZ3dpIDwtIGZ1bmN0aW9uKGRhdGUsIGZsb3csIHJhaW4pIHsNCiAgICBkd2YgPC0gaW5mZXJfZGFpbHlfZHdmKGRhdGUsIGZsb3csIHJhaW4pDQogICAgDQogICAgZ3dpIDwtIGRmICU+JQ0KICAgICAgbXV0YXRlKHdkYXk9d2RheShkYXRlKSkgJT4lDQogICAgICBsZWZ0X2pvaW4oZHdmLCBieT0id2RheSIpICU+JQ0KICAgICAgbXV0YXRlKGR3Zl9hZGo9bmFfaW50ZXJwb2xhdGlvbihkd2YsIG9wdGlvbj0ibGluZWFyIikpICU+JQ0KICAgICAgbXV0YXRlKHd3Zj1kZl9hZGotZHdmKSAlPiUNCiAgICAgIG11dGF0ZShnd2k9em9vOjpyb2xsYXBwbHkod3dmLCAzMCwgcXVhbnRpbGUsIHByb2I9MC4wNSwgZmlsbD1OQSkpDQogICAgDQogICAgcmV0VmFsIDwtIHJlbW92ZV9vdXRsaWVycyh6ZXJvX29mZnNldChnd2kkZ3dpKSkNCiAgICANCiAgICByZXR1cm4ocmV0VmFsKQ0KfQ0KDQpkZiRnd2kgPC0gaW5mZXJfZGFpbHlfZ3dpKGRhdGUsIGZsb3csIHJhaW4pDQoNCmluZmVyX2RhaWx5X2JzZiA8LSBmdW5jdGlvbihkYXRlLCBmbG93LCByYWluKSB7DQogIGd3aSA8LSBpbmZlcl9kYWlseV9nd2koZGF0ZSwgZmxvdywgcmFpbikNCiAgDQogIGRpdXJuYWwgPC0gaW5mZXJfZGFpbHlfZHdmKGRhdGUsIGZsb3ctZ3dpLCByYWluKQ0KICANCiAgdG1wIDwtIGRhdGEuZnJhbWUoZGF0ZT1kYXRlLCBmbG93PWZsb3csIHJhaW49cmFpbikNCg0KICByZXRWYWwgPC0gdG1wICU+JQ0KICAgIG11dGF0ZSh3ZGF5PXdkYXkoZGF0ZSkpICU+JQ0KICAgIGxlZnRfam9pbihkaXVybmFsLCBieT1jKCJ3ZGF5IikpDQogIA0KICByZXR1cm4ocmV0VmFsJGR3ZikNCn0NCg0KZGYkYnNmIDwtIGluZmVyX2RhaWx5X2JzZihkYXRlLCBmbG93LCByYWluKQ0KYGBgDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkRhaWx5IEluZmxvdy9JbmZpbHRyYXRpb24iDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7ciBpbml0LCBpbmNsdWRlPUZBTFNFfQ0KDQojIGxvYWQoIkc6L0ZpbmFuY2lhbCBTZXJ2aWNlcy9Db3Jwb3JhdGUgUGxhbm5pbmcvSHlkcmF1bGljIE1vZGVsIEZpbGVzL1IgTGlicmFyeS9yU1NPQVAvZGF0YS9sZW5veC5SRGF0YSIpDQojIGxvYWQoIkc6L0ZpbmFuY2lhbCBTZXJ2aWNlcy9Db3Jwb3JhdGUgUGxhbm5pbmcvSHlkcmF1bGljIE1vZGVsIEZpbGVzL1IgTGlicmFyeS9yU1NPQVAvZGF0YS90aWR5X3JhaW4uUkRhdGEiKQ0KDQpsb2FkKCJDOi9Vc2Vycy9DcmFpZy9Ecm9wYm94L1IgTGlicmFyeS9yU1NPQVAvREFUQS9sZW5veC5SRGF0YSIpDQpsb2FkKCJDOi9Vc2Vycy9DcmFpZy9Ecm9wYm94L1IgTGlicmFyeS93ZXRSL2RhdGEvdGlkeV9yYWluLlJEYXRhIikNCg0KDQpsaWJyYXJ5KHRpZHl2ZXJzZSk7IHRoZW1lX3NldCh0aGVtZV9idygpKQ0KbGlicmFyeShsdWJyaWRhdGUpDQpsaWJyYXJ5KHN0cmluZ3IpDQpsaWJyYXJ5KHJTU09BUCkNCmxpYnJhcnkoem9vKQ0KbGlicmFyeSh2YXJzKQ0KbGlicmFyeShpbXB1dGVUUykNCmBgYA0KDQpgYGB7ciB1dGlsLCBpbmNsdWRlPUZBTFNFfQ0KcmVtb3ZlX291dGxpZXJzIDwtIGZ1bmN0aW9uKHJhd1ZhbCwgTE9XX1BBU1MgPSAwLjk5LCBISUdIX1BBU1MgPSAwLjEwLCBTQ0FMRSA9IDEuNSkgew0KICAgIHE1MCA8LSB1bm5hbWUocXVhbnRpbGUocmF3VmFsLCBwcm9icz0wLjUwLCBuYS5ybT1UUlVFKSkNCiAgICBxbWF4IDwtIHVubmFtZShxdWFudGlsZShyYXdWYWwsIHByb2JzPUxPV19QQVNTLCBuYS5ybT1UUlVFKSkNCiAgICBxbWluIDwtIHVubmFtZShxdWFudGlsZShyYXdWYWwsIHByb2JzPUhJR0hfUEFTUywgbmEucm09VFJVRSkpDQogICAgDQogICAgZGlmZl9taW4gPC0gYWJzKGlmZWxzZSAoDQogICAgICAgIHNpZ24ocW1pbik9PTENCiAgICAgICwgcTUwLXFtaW4NCiAgICAgICwgcW1pbi1xNTANCiAgICAgICkpDQogICAgDQogICAgZGlmZl9tYXggPC0gcW1heC1xNTANCiAgICANCiAgICBNQVhfREYgPC0gcTUwICsgZGlmZl9tYXgqU0NBTEUNCiAgICBNSU5fREYgPC0gcTUwIC0gZGlmZl9taW4qU0NBTEUNCiAgICANCiAgICByZXRWYWwgPC0gcmF3VmFsDQogICAgcmV0VmFsW3JldFZhbD5NQVhfREZdPU5BDQogICAgcmV0VmFsW3JldFZhbDxNSU5fREZdPU5BDQogICAgcmV0VmFsIDwtIG5hX2ludGVycG9sYXRpb24ocmV0VmFsLCBvcHRpb249ImxpbmVhciIpDQogICAgDQogICAgcmV0dXJuKHJldFZhbCkNCn0NCg0KemVyb19vZmZzZXQgPC0gZnVuY3Rpb24ocmF3VmFsLCBISUdIX1BBU1M9MC4wNSkgew0KICBaRVJPX1ZBTFVFIDwtIHVubmFtZShxdWFudGlsZShyYXdWYWwsIHByb2JzPUhJR0hfUEFTUywgbmEucm09VFJVRSkpDQogIHJldFZhbCA8LSByYXdWYWwgLSBaRVJPX1ZBTFVFDQogIA0KICByZXRWYWxbcmV0VmFsPDBdPTANCiAgDQogIHJldHVybihyZXRWYWwpDQp9DQpgYGANCg0KYGBge3IgbG9hZF9kYXRhLCBpbmNsdWRlPUZBTFNFfQ0KDQojIGNvbnZleSBob3VybHkgZGF0YSB0byBkYWlseSBkYXRhDQpyYWluXyA8LSB0aWR5X3JhaW4gJT4lDQogIGZpbHRlcihzdGF0aW9uPT0iU09XUyIpICU+JQ0KICBtdXRhdGUoZGF0ZT1kYXRlKGRhdGV0aW1lKSkgJT4lDQogIGdyb3VwX2J5KGRhdGUpICU+JQ0KICBzdW1tYXJpemUocmFpbj1zdW0ocmFpbmZhbGxfaW4sIG5hLnJtPVRSVUUpKQ0KDQojcmFpbl9baXMubmEocmFpbl8pXT0wDQoNCiMgdG1wIDwtIGRhdGEgJT4lDQojICAgbXV0YXRlKGRhdGU9ZGF0ZShkYXRldGltZSkpICU+JQ0KIyAgIGZpbHRlcihkYXRlPG1keSgiMDEvMDEvMjAyMCIpKSAlPiUNCiMgICBncm91cF9ieShkYXRlKSAlPiUNCiMgICBzdW1tYXJpemUoZGY9c3VtKGZsb3dfZ3BtLCBuYS5ybT1UUlVFKSkgJT4lDQojICAgbGVmdF9qb2luKHJhaW5fLCBieT0iZGF0ZSIpDQoNCnRtcCA8LSBsZW4gJT4lDQogIG11dGF0ZShkYXRlPWRhdGUoZGF0ZXRpbWUpKSAlPiUNCiAgZmlsdGVyKGRhdGU+bWR5KCIxMC81LzIwMTgiKSkgJT4lIA0KICBmaWx0ZXIoZGF0ZTxtZHkoIjAxLzAxLzIwMjAiKSkgJT4lDQogIG5hLm9taXQoZmxvd19ncG0pICU+JQ0KICBncm91cF9ieShkYXRlKSAlPiUNCiAgc3VtbWFyaXplKGRmPXN1bShmbG93X2dwbSwgbmEucm09VFJVRSkpICU+JQ0KICBsZWZ0X2pvaW4ocmFpbl8sIGJ5PSJkYXRlIikNCmBgYA0KDQojIyBQYXNzIERhdGEgdG8gRnVuY3Rpb24NCmBgYHtyfQ0KZGF0ZSA8LSB0bXAkZGF0ZQ0KZmxvdyA8LSB0bXAkZGYNCnJhaW4gPC0gdG1wJHJhaW4NCg0KIyB3aXRoaW4gZnVuY3Rpb24sIGNvbnZlcnQgdG8gZGF0YS5mcmFtZQ0KZGYgPC0gZGF0YS5mcmFtZShkYXRlPWRhdGUsIGZsb3c9ZmxvdywgcmFpbj1yYWluKQ0KYGBgDQoNCg0KDQoNCmBgYHtyfQ0KaW5mZXJfZGFpbHlfZHdmIDwtIGZ1bmN0aW9uKGRhdGUsIGZsb3csIHJhaW4NCiAgICAsIE1BWF9SQUlOX1RPREFZPTAuMjUNCiAgICAsIE1BWF9SQUlOX1NIT1JUPTAuNQ0KICAgICwgREFZX1JBSU5fU0hPUlQ9Nw0KICAgICwgTUFYX1JBSU5fTE9ORz0yDQogICAgLCBEQVlfUkFJTl9MT05HPTE0DQogICAgLCBNQVhfU1RERVY9MSkgew0KDQogICAgTUFYX0ZMT1cgPC0gbWVhbihmbG93KStNQVhfU1RERVYqc2QoZmxvdykNCiAgICBNSU5fRkxPVyA8LSBtZWFuKGZsb3cpLU1BWF9TVERFVipzZChmbG93KQ0KICAgIA0KICAgIGR3ZiA8LSBkZiAlPiUNCiAgICAgIG11dGF0ZShsYWdfc2hvcnQ9cm9sbGFwcGx5KHJhaW4sIERBWV9SQUlOX1NIT1JULCBzdW0sIGFsaWduPSJyaWdodCIsIGZpbGw9MCkpICU+JQ0KICAgICAgbXV0YXRlKGxhZ19sb25nPXJvbGxhcHBseShyYWluLCBEQVlfUkFJTl9MT05HLCBzdW0sIGFsaWduPSJyaWdodCIsIGZpbGw9MCkpICU+JQ0KICAgICAgZmlsdGVyKHJhaW48PSBNQVhfUkFJTl9UT0RBWSAmIGxhZ19zaG9ydDw9TUFYX1JBSU5fU0hPUlQgJiBsYWdfbG9uZyA8PSBNQVhfUkFJTl9MT05HKSAlPiUNCiAgICAgIGZpbHRlcihkZl9hZGo8PU1BWF9GTE9XICYgZGZfYWRqID49IE1JTl9GTE9XKSAlPiUNCiAgICAgIG11dGF0ZSh3ZGF5PXdkYXkoZGF0ZSkpICU+JQ0KICAgICAgZ3JvdXBfYnkod2RheSkgJT4lDQogICAgICBzdW1tYXJpemUoZHdmPW1lYW4oZGZfYWRqKSkNCiAgICANCiAgICByZXR1cm4oZHdmKQ0KfQ0KDQppbmZlcl9kYWlseV9nd2kgPC0gZnVuY3Rpb24oZGF0ZSwgZmxvdywgcmFpbiwgSElHSF9QQVNTPTAuMSkgew0KICAgIGR3ZiA8LSBpbmZlcl9kYWlseV9kd2YoZGF0ZSwgZmxvdywgcmFpbikNCiAgICANCiAgICBnd2kgPC0gZGYgJT4lDQogICAgICBtdXRhdGUod2RheT13ZGF5KGRhdGUpKSAlPiUNCiAgICAgIGxlZnRfam9pbihkd2YsIGJ5PSJ3ZGF5IikgJT4lDQogICAgICBtdXRhdGUoZHdmX2Fkaj1uYV9pbnRlcnBvbGF0aW9uKGR3Ziwgb3B0aW9uPSJsaW5lYXIiKSkgJT4lDQogICAgICBtdXRhdGUod3dmPWRmX2Fkai1kd2YpICU+JQ0KICAgICAgbXV0YXRlKGd3aT16b286OnJvbGxhcHBseSh3d2YsIDMwLCBhbGlnbj0icmlnaHQiLCBxdWFudGlsZSwgcHJvYj1ISUdIX1BBU1MsIGZpbGw9TkEpKQ0KICAgIA0KICAgIHJldFZhbCA8LSByZW1vdmVfb3V0bGllcnMoemVyb19vZmZzZXQoZ3dpJGd3aSkpDQogICAgDQogICAgcmV0dXJuKHJldFZhbCkNCn0NCg0KaW5mZXJfZGFpbHlfYnNmIDwtIGZ1bmN0aW9uKGRhdGUsIGZsb3csIHJhaW4pIHsNCiAgZ3dpIDwtIGluZmVyX2RhaWx5X2d3aShkYXRlLCBmbG93LCByYWluKQ0KICANCiAgZGl1cm5hbCA8LSBpbmZlcl9kYWlseV9kd2YoZGF0ZSwgZmxvdy1nd2ksIHJhaW4pDQogIA0KICB0bXAgPC0gZGF0YS5mcmFtZShkYXRlPWRhdGUsIGZsb3c9ZmxvdywgcmFpbj1yYWluKQ0KDQogIHJldFZhbCA8LSB0bXAgJT4lDQogICAgbXV0YXRlKHdkYXk9d2RheShkYXRlKSkgJT4lDQogICAgbGVmdF9qb2luKGRpdXJuYWwsIGJ5PWMoIndkYXkiKSkNCiAgDQogIHJldHVybihyZXRWYWwkZHdmKQ0KfQ0KDQoNCmRmJGJzZiA8LSBpbmZlcl9kYWlseV9ic2YoZGF0ZSwgZmxvdywgcmFpbikNCmBgYA0KDQoNCmBgYHtyfQ0KaW5mZXJfZGFpbHlfaHlkcm9ncmFwaCA8LSBmdW5jdGlvbihkYXRlLCBmbG93LCByYWluLCBJTklUSUFMX0FCU1RSQUNUSU9OID0gMC41KSB7DQogIA0KICANCiAgZmxvdyA8LSBkZiRkZl9hZGoNCg0KICBnd2kgPC0gaW5mZXJfZGFpbHlfZ3dpKGRhdGUsIGZsb3csIHJhaW4pDQogIGJzZiA8LSBpbmZlcl9kYWlseV9ic2YoZGF0ZSwgZmxvdywgcmFpbikNCg0KICByZGkgPC0gZmxvdyAtIGd3aSAtIGJzZg0KICANCiAgciA8LSByYWluDQogIHJbcjxJTklUSUFMX0FCU1RSQUNUSU9OXT0wDQogIHJbaXMubmEocildPTANCg0KICAjIFRyYW5zbGF0ZSB0byB0aW1lIHNlcmllcyBmb3IgVkFSDQogIGlpIDwtIHRzKGNiaW5kKHIsIHJkaSkpDQoNCiAgIyBFc3RpbWF0ZSB0aGUgbW9kZWwNCiAgdmFyLjEgPC0gVkFSKGlpLCAyLCB0eXBlID0gIm5vbmUiKQ0KDQogICMgQ2FsY3VsYXRlIHRoZSBJUkYNCiAgaXIuMSA8LSBpcmYodmFyLjEsIGltcHVsc2UgPSAiciIsIHJlc3BvbnNlID0gInJkaSIsIG4uYWhlYWQgPSAyMCwgb3J0aG8gPSBGQUxTRSkNCg0KICAjIFJldHVybiB1cHBlciBsaW1pdA0KICB1aCA8LSBpci4xJFVwcGVyJHINCg0KIHJldHVybih1aCkNCn0NCiAgDQppbmZlcl9kYWlseV9yZGkgPC0gZnVuY3Rpb24oZGF0ZSwgZmxvdywgcmFpbiwgSU5JVElBTF9BQlNUUkFDVElPTj0wLjUpIHsNCiAgDQogIHVoIDwtIGluZmVyX2RhaWx5X2h5ZHJvZ3JhcGgoZGF0ZSwgZmxvdywgcmFpbiwgSU5JVElBTF9BQlNUUkFDVElPTikNCiAgDQogIFBVIDwtIGxhZ19yYWluKHJhaW4pDQogIFVIIDwtIHVoDQogIFUgPC0gbWF0cml4KGMoVUgsIHJlcCgwLG5jb2woUFUpLWxlbmd0aChVSCkpKSwgbmNvbD0xKQ0KICBRLm0gPC0gUFUlKiVVDQogIA0KICByZXR1cm4oUS5tKQ0KfQ0KDQoNCmBgYA0KDQojIyBSZW1vdmUgT3V0bGllciBhbmQgSW1wdXRlIE5BDQpgYGB7cn0NCmRmJGRmX2FkaiA8LSByZW1vdmVfb3V0bGllcnMoZGYkZmxvdykNCmBgYA0KDQpgYGB7cn0NCmRmJGd3aSA8LSBpbmZlcl9kYWlseV9nd2koZGF0ZSwgZGYkZGZfYWRqLCByYWluKQ0KZGYkYnNmIDwtIGluZmVyX2RhaWx5X2JzZihkYXRlLCBkZiRkZl9hZGosIHJhaW4pDQpkZiRyZGkgPC0gaW5mZXJfZGFpbHlfcmRpKGRhdGUsIGRmJGRmX2FkaiwgcmFpbikNCiMgDQojIGRmMSRyZGkgPC0gaW5mZXJfZGFpbHlfcmRpKGRhdGUsIGRmJGRmX2FkaiwgcmFpbiwgMCkNCiMgZGYyJHJkaSA8LSBpbmZlcl9kYWlseV9yZGkoZGF0ZSwgZGYkZGZfYWRqLCByYWluLCAwLjUpDQojIGRmMyRyZGkgPC0gaW5mZXJfZGFpbHlfcmRpKGRhdGUsIGRmJGRmX2FkaiwgcmFpbiwgMSkNCiMgZGY0JHJkaSA8LSBpbmZlcl9kYWlseV9yZGkoZGF0ZSwgZGYkZGZfYWRqLCByYWluLCAxLjUpDQpgYGANCg0KYGBge3J9DQpwbG90KGRmJGZsb3csIHlsaW09YygwLDJlNiksIHR5cGU9ImwiKQ0KIyBsaW5lcyhkZiRnd2kpDQojIGxpbmVzKGRmJGJzZitkZiRnd2kpDQojIGxpbmVzKGRmJGJzZitkZiRnd2krZGYxJHJkaSwgY29sPSJyZWQiKQ0KIyBsaW5lcyhkZiRic2YrZGYkZ3dpK2RmMiRyZGksIGNvbD0iYmx1ZSIpDQojIGxpbmVzKGRmJGJzZitkZiRnd2krZGYzJHJkaSwgY29sPSJncmVlbiIpDQojIGxpbmVzKGRmJGJzZitkZiRnd2krZGY0JHJkaSwgY29sPSJjeWFuIikNCmBgYA0KDQpgYGB7cn0NCmRmICU+JQ0KICBnZ3Bsb3QoYWVzKHg9ZGF0ZSwgeT1mbG93KSkgKyANCiAgZ2VvbV9saW5lKCkgKw0KICBnZW9tX2xpbmUoYWVzKHk9YnNmK2d3aStyZGkpLCBjb2w9InJlZCIpDQpgYGANCg==</div>
 
 
 

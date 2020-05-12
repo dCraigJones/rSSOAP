@@ -4,8 +4,13 @@ output: html_notebook
 ---
 
 ```{r init, include=FALSE}
-load("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/data/lenox.RData")
-load("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/data/tidy_rain.RData")
+
+# load("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/data/lenox.RData")
+# load("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/data/tidy_rain.RData")
+
+load("C:/Users/Craig/Dropbox/R Library/rSSOAP/DATA/lenox.RData")
+load("C:/Users/Craig/Dropbox/R Library/wetR/data/tidy_rain.RData")
+
 
 library(tidyverse); theme_set(theme_bw())
 library(lubridate)
@@ -45,6 +50,8 @@ zero_offset <- function(rawVal, HIGH_PASS=0.05) {
   ZERO_VALUE <- unname(quantile(rawVal, probs=HIGH_PASS, na.rm=TRUE))
   retVal <- rawVal - ZERO_VALUE
   
+  retVal[retVal<0]=0
+  
   return(retVal)
 }
 ```
@@ -53,16 +60,25 @@ zero_offset <- function(rawVal, HIGH_PASS=0.05) {
 
 # convey hourly data to daily data
 rain_ <- tidy_rain %>%
-  filter(station=="SOWEST") %>%
+  filter(station=="SOWS") %>%
   mutate(date=date(datetime)) %>%
   group_by(date) %>%
   summarize(rain=sum(rainfall_in, na.rm=TRUE))
 
-rain_[is.na(rain_)]=0
+#rain_[is.na(rain_)]=0
 
-tmp <- data %>%
+# tmp <- data %>%
+#   mutate(date=date(datetime)) %>%
+#   filter(date<mdy("01/01/2020")) %>%
+#   group_by(date) %>%
+#   summarize(df=sum(flow_gpm, na.rm=TRUE)) %>%
+#   left_join(rain_, by="date")
+
+tmp <- len %>%
   mutate(date=date(datetime)) %>%
+  filter(date>mdy("10/5/2018")) %>% 
   filter(date<mdy("01/01/2020")) %>%
+  na.omit(flow_gpm) %>%
   group_by(date) %>%
   summarize(df=sum(flow_gpm, na.rm=TRUE)) %>%
   left_join(rain_, by="date")
@@ -79,10 +95,7 @@ df <- data.frame(date=date, flow=flow, rain=rain)
 ```
 
 
-## Remove Outlier and Impute NA
-```{r}
-df$df_adj <- remove_outliers(df$flow)
-```
+
 
 ```{r}
 infer_daily_dwf <- function(date, flow, rain
@@ -91,14 +104,14 @@ infer_daily_dwf <- function(date, flow, rain
     , DAY_RAIN_SHORT=7
     , MAX_RAIN_LONG=2
     , DAY_RAIN_LONG=14
-    , MAX_STDEV=0.5) {
+    , MAX_STDEV=1) {
 
     MAX_FLOW <- mean(flow)+MAX_STDEV*sd(flow)
     MIN_FLOW <- mean(flow)-MAX_STDEV*sd(flow)
     
     dwf <- df %>%
-      mutate(lag_short=rollapply(rain, DAY_RAIN_SHORT, sum, fill=0)) %>%
-      mutate(lag_long=rollapply(rain, DAY_RAIN_LONG, sum, fill=0)) %>%
+      mutate(lag_short=rollapply(rain, DAY_RAIN_SHORT, sum, align="right", fill=0)) %>%
+      mutate(lag_long=rollapply(rain, DAY_RAIN_LONG, sum, align="right", fill=0)) %>%
       filter(rain<= MAX_RAIN_TODAY & lag_short<=MAX_RAIN_SHORT & lag_long <= MAX_RAIN_LONG) %>%
       filter(df_adj<=MAX_FLOW & df_adj >= MIN_FLOW) %>%
       mutate(wday=wday(date)) %>%
@@ -108,7 +121,7 @@ infer_daily_dwf <- function(date, flow, rain
     return(dwf)
 }
 
-infer_daily_gwi <- function(date, flow, rain) {
+infer_daily_gwi <- function(date, flow, rain, HIGH_PASS=0.1) {
     dwf <- infer_daily_dwf(date, flow, rain)
     
     gwi <- df %>%
@@ -116,14 +129,12 @@ infer_daily_gwi <- function(date, flow, rain) {
       left_join(dwf, by="wday") %>%
       mutate(dwf_adj=na_interpolation(dwf, option="linear")) %>%
       mutate(wwf=df_adj-dwf) %>%
-      mutate(gwi=zoo::rollapply(wwf, 30, quantile, prob=0.05, fill=NA))
+      mutate(gwi=zoo::rollapply(wwf, 30, align="right", quantile, prob=HIGH_PASS, fill=NA))
     
     retVal <- remove_outliers(zero_offset(gwi$gwi))
     
     return(retVal)
 }
-
-df$gwi <- infer_daily_gwi(date, flow, rain)
 
 infer_daily_bsf <- function(date, flow, rain) {
   gwi <- infer_daily_gwi(date, flow, rain)
@@ -139,5 +150,85 @@ infer_daily_bsf <- function(date, flow, rain) {
   return(retVal$dwf)
 }
 
+
 df$bsf <- infer_daily_bsf(date, flow, rain)
+```
+
+
+```{r}
+infer_daily_hydrograph <- function(date, flow, rain, INITIAL_ABSTRACTION = 0.5) {
+  
+  
+  flow <- df$df_adj
+
+  gwi <- infer_daily_gwi(date, flow, rain)
+  bsf <- infer_daily_bsf(date, flow, rain)
+
+  rdi <- flow - gwi - bsf
+  
+  r <- rain
+  r[r<INITIAL_ABSTRACTION]=0
+  r[is.na(r)]=0
+
+  # Translate to time series for VAR
+  ii <- ts(cbind(r, rdi))
+
+  # Estimate the model
+  var.1 <- VAR(ii, 2, type = "none")
+
+  # Calculate the IRF
+  ir.1 <- irf(var.1, impulse = "r", response = "rdi", n.ahead = 20, ortho = FALSE)
+
+  # Return upper limit
+  uh <- ir.1$Upper$r
+
+ return(uh)
+}
+  
+infer_daily_rdi <- function(date, flow, rain, INITIAL_ABSTRACTION=0.5) {
+  
+  uh <- infer_daily_hydrograph(date, flow, rain, INITIAL_ABSTRACTION)
+  
+  PU <- lag_rain(rain)
+  UH <- uh
+  U <- matrix(c(UH, rep(0,ncol(PU)-length(UH))), ncol=1)
+  Q.m <- PU%*%U
+  
+  return(Q.m)
+}
+
+
+```
+
+## Remove Outlier and Impute NA
+```{r}
+df$df_adj <- remove_outliers(df$flow)
+```
+
+```{r}
+df$gwi <- infer_daily_gwi(date, df$df_adj, rain)
+df$bsf <- infer_daily_bsf(date, df$df_adj, rain)
+df$rdi <- infer_daily_rdi(date, df$df_adj, rain)
+# 
+# df1$rdi <- infer_daily_rdi(date, df$df_adj, rain, 0)
+# df2$rdi <- infer_daily_rdi(date, df$df_adj, rain, 0.5)
+# df3$rdi <- infer_daily_rdi(date, df$df_adj, rain, 1)
+# df4$rdi <- infer_daily_rdi(date, df$df_adj, rain, 1.5)
+```
+
+```{r}
+plot(df$flow, ylim=c(0,2e6), type="l")
+# lines(df$gwi)
+# lines(df$bsf+df$gwi)
+# lines(df$bsf+df$gwi+df1$rdi, col="red")
+# lines(df$bsf+df$gwi+df2$rdi, col="blue")
+# lines(df$bsf+df$gwi+df3$rdi, col="green")
+# lines(df$bsf+df$gwi+df4$rdi, col="cyan")
+```
+
+```{r}
+df %>%
+  ggplot(aes(x=date, y=flow)) + 
+  geom_line() +
+  geom_line(aes(y=bsf+gwi+rdi), col="red")
 ```

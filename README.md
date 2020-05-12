@@ -13,8 +13,23 @@ devtools::install_github("dCraigJones/n185")
 *work in progress*
 
 ![alt text](md/summary.jpg)
+
+### Growth (Annual Trend)
+
+### Long-Term (GWI)
+#### Maximum Value
+#### Regression
+#### Hydrograph
   
-  
+### Intermediate-Term (Daily RDI)
+#### Maximum Value
+#### Regression
+#### Hydrograph
+
+### Short-Term (Hourly RDI)
+#### Maximum Value
+#### Regression
+#### Hydrograph
 ### Inputs (date, flow, rain)
   - _date_, in POSIX date format
   - _flow_, in GPD, cumulative wastewater flow
