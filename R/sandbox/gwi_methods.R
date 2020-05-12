@@ -70,7 +70,7 @@ ii <- ts(cbind(r, df$gwi))
 var.1 <- VAR(ii, 2, type = "none")
 
 # Calculate the IRF
-ir.1 <- irf(var.1, impulse = "r", response = "X", n.ahead = 60, ortho = FALSE)
+ir.1 <- irf(var.1, impulse = "r", response = "X", n.ahead = 30, ortho = FALSE)
 
 # Return upper limit
 uh <- ir.1$Upper$r
@@ -80,4 +80,4 @@ UH <- uh
 U <- matrix(c(UH, rep(0,ncol(PU)-length(UH))), ncol=1)
 Q.m <- PU%*%U
 
-plot(df$gwi); lines(Q.m)
+plot(df$date, df$gwi); lines(df$date, Q.m)

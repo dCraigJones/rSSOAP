@@ -5,7 +5,7 @@ output: html_notebook
 
 ```{r init, include=FALSE}
 load("C:/Users/Craig/Dropbox/R Library/rSSOAP/DATA/lenox.RData")
-load("C:/Users/Craig/Dropbox/R Library/rSSOAP/DATA/tidy_rain.RData")
+load("C:/Users/Craig/Dropbox/R Library/wetR/data/tidy_rain.RData")
 
 library(tidyverse); theme_set(theme_bw())
 library(lubridate)
@@ -55,16 +55,25 @@ zero_offset <- function(rawVal, HIGH_PASS=0.05) {
 
 # convey hourly data to daily data
 rain_ <- tidy_rain %>%
-  filter(station=="SOWEST") %>%
+  filter(station=="SOWS") %>%
   mutate(date=date(datetime)) %>%
   group_by(date) %>%
   summarize(rain=sum(rainfall_in, na.rm=TRUE))
 
-rain_[is.na(rain_)]=0
+#rain_[is.na(rain_)]=0
 
-tmp <- data %>%
+# tmp <- data %>%
+#   mutate(date=date(datetime)) %>%
+#   filter(date<mdy("01/01/2020")) %>%
+#   group_by(date) %>%
+#   summarize(df=sum(flow_gpm, na.rm=TRUE)) %>%
+#   left_join(rain_, by="date")
+
+tmp <- len %>%
   mutate(date=date(datetime)) %>%
+  filter(date>mdy("10/5/2018")) %>% 
   filter(date<mdy("01/01/2020")) %>%
+  na.omit(flow_gpm) %>%
   group_by(date) %>%
   summarize(df=sum(flow_gpm, na.rm=TRUE)) %>%
   left_join(rain_, by="date")
@@ -200,10 +209,10 @@ df$rdi <- infer_daily_rdi(date, df$df_adj, rain)
 plot(df$flow, ylim=c(0,2e6), type="l")
 # lines(df$gwi)
 # lines(df$bsf+df$gwi)
-lines(df$bsf+df$gwi+df1$rdi, col="red")
-lines(df$bsf+df$gwi+df2$rdi, col="blue")
-lines(df$bsf+df$gwi+df3$rdi, col="green")
-lines(df$bsf+df$gwi+df4$rdi, col="cyan")
+# lines(df$bsf+df$gwi+df1$rdi, col="red")
+# lines(df$bsf+df$gwi+df2$rdi, col="blue")
+# lines(df$bsf+df$gwi+df3$rdi, col="green")
+# lines(df$bsf+df$gwi+df4$rdi, col="cyan")
 ```
 
 ```{r}
