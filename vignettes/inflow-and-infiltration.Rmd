@@ -32,11 +32,15 @@ Direct Connections (inflow)
 
 <img src="./fig/overview.jpg" alt="drawing" style="width:600px;align:middle;"/>
 
-## header here
+## Definitions
 
-GWI is the wet-weather flow contribution from groundwater that infiltrates the collection system through leaky infrastructure during periods of high groundwater, often following several rain events.  Increased flows from GWI can last for several weeks or months.  It is measured during periods of high groundwater when it is not raining, or during the night-time low diurnal flow periods and is quantified by the upstream gravity pipeline, for example GPD per inch Diameter per mile of pipe (GPD/in/mi or GPD/IDM).  Most design engineers report GWI as peak infiltration, which is the maximum GWI expected from the seasonal high groundwater table.
+**Base Sewer Flow (BSF)** is the wastewater flow collected from the customer by the internal plumbing and is usually transmitted through a lateral to the collection system.  The amount of BSF is often a percentage of water consumption usually expressed as the Return Ratio (RR) and when aggregated can vary in a predicatble pattern (called a diurnal).  Weekends and Weekdays can exhibit different diurnal patterns. 
 
-RDI is the short-term (i.e. hours or days) increase in wastewater flow following the onset of a rain event.  It is the wet-weather flow contribution from stormwater that flows into the collection system through direct connections (e.g. open clean-outs and roof-drains) and is measured during periods of high rainfall.  This study quantifies the peak RDII using the rational runoff coefficient in terms of GPD per inch of rainfall per basin acreage (GPD/in/ac).  Thus, the amount of RDII is dependent upon the intensity of the storm, such that a storm with a 5-year return will have less RDII than a storm with a 25-year return.
+**Ground Water Infiltration (GWI)** is the additional flow contribution from groundwater that infiltrates the collection system through leaky infrastructure during periods of high groundwater, often following several rain events.  Increased flows from GWI can last for several weeks or months.  It is measured during periods of high groundwater when it is not raining, or during the night-time low diurnal flow periods.
+
+**Rainfall Derived Inflow (RDI)** is the short-term (i.e. hours or days) increase in flow following the onset of a rain event.  It is the additional flow contribution from stormwater that flows into the collection system through direct connections (e.g. open clean-outs and roof-drains) and is measured during periods of high rainfall.  The amount of RDI is dependent upon the intensity of the storm.
+
+
 
 <img src="./fig/bsf.jpg" alt="drawing" style="width:300px;"/>
 <img src="./fig/bsf-gwi-rdi.jpg" alt="drawing" style="width:300px;"/>
@@ -44,34 +48,23 @@ RDI is the short-term (i.e. hours or days) increase in wastewater flow following
 <img src="./fig/bsf-rdi.jpg" alt="drawing" style="width:300px;"/>
 
 
-## Vignette Info
+## Fundamental Equations
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+$$ \text{flow} = \underbrace{\overbrace{BSF + GWI}^{DWF} + RDI}_{WWF} + \epsilon $$
 
-## Styles
+...
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+## Dry-Weather Flow
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+...
 
-## Figures
+## Wet-Weather Flow
+...
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
-
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
+## Workflow
+- _CLEAN_ *raw data* into *scrubbed*
+- _ISOLATE_ a *signal* from *scrubbed*
+- _SHAPE_ *scrubbed* into a *hydrograph*
+- _MODEL_ *hydrograph* into a *response*
+- _REPORT_ *error* from *response*
+...
