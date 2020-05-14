@@ -14,5 +14,8 @@ Imports: timeDate,
          zoo,
          vars
 Suggests:
-         GA
+    GA,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.1.1
+VignetteBuilder: knitr
