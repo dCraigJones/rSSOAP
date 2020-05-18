@@ -1,0 +1,96 @@
+---
+title: "Workflow"
+output: html_notebook
+---
+
+##Workflow:
+
+### Load Data
+ 
+ - date, *defined*
+ - flow, *defined*
+ - rain, *defined*
+ 
+### Scrub Data
+
+ - scrub, cleaned
+
+### Dry-Weather Flow
+
+ - gwi
+ - gwi_model
+ - bsf
+ - bsf_model
+ 
+### Wet-Weather Flow
+
+ - rdi
+ - rdi_model
+ 
+### Final Model
+
+ - model
+ - residual
+ - error
+
+## Example
+
+### Load Data
+```{r}
+# convert hourly data to daily data
+rain_ <- hourly_rain %>%
+  filter(station=="BUCKMN") %>%
+  mutate(date=lubridate::date(datetime)) %>%
+  group_by(date) %>%
+  summarize(rain=sum(rainfall_in, na.rm=TRUE))
+
+
+tmp <- hourly_flow %>%
+  filter(str_detect(location, "Tow")) %>%
+  mutate(date=date(datehour)) %>%
+  filter(date>mdy("10/5/2018")) %>% 
+  filter(date<mdy("01/01/2020")) %>%
+  na.omit(flow) %>%
+  group_by(date) %>%
+  summarize(df=sum(flow, na.rm=TRUE)) %>%
+  left_join(rain_, by="date")
+
+date <- tmp$date
+flow <- tmp$df
+rain <- tmp$rain
+
+df <- data.frame(date=date, flow=flow, rain=rain)
+```
+
+
+### Scrub Data
+```{r}
+df$scrub <- remove_outliers(df$flow)
+```
+
+
+### Dry-Weather Flow
+```{r}
+df$gwi <- isolate_daily_gwi(df$date, df$scrub, df$rain)
+uh.3 <- shape_daily_hydrograph(df$date, df$gwi, df$rain, 60)
+df$gwi_model <- model_hydrograph(df$rain, uh.3)
+
+df$bsf <- df$scrub - df$gwi_model
+df$bsf_model <- isolate_daily_bsf(df$date, df$bsf, df$rain)
+```
+
+
+### Wet-Weather Flow
+```{r}
+df$rdi <- df$scrub - df$bsf_model - df$gwi_model
+uh.2 <- shape_daily_hydrograph(df$date, df$rdi, df$rain, 20, 0.25)
+df$rdi_model <- model_hydrograph(df$rain, uh.2)
+```
+
+ 
+### Final Model
+```{r}
+df$model <- df$bsf + df$gwi + df$rdi
+df$residual <- df$model-df$scrub
+df$error <- df$residual/df$scrub
+```
