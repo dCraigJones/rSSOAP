@@ -66,6 +66,7 @@ quantile(a$lag_gwi/a$lag, na.rm=TRUE, probs=0.95)/GWI_DUR
 r <- df$rain
 r[is.na(r)]=0
 
+
 # r <- rollapply(
 #   r
 #   , 3
