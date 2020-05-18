@@ -64,7 +64,7 @@ $$ \text{flow} = \underbrace{\overbrace{BSF + GWI}^{DWF} + RDI}_{WWF} + \epsilon
 ## Workflow
 - __CLEAN__ *raw data* into *scrubbed*
 - __ISOLATE__ a *signal* from *scrubbed*
-- __SHAPE__ *scrubbed* into a *hydrograph*
+- __SHAPE__ *signal* into a *hydrograph*
 - __MODEL__ *hydrograph* into a *response*
 - __DRAW__ custom *graphs* to summarize results.
 ...
