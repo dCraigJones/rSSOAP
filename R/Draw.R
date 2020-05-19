@@ -144,3 +144,25 @@ draw_daily_summary <- function(date, flow, rain) {
 
   #return(H)
 }
+
+
+draw_model_qaqc <- function(df) {
+
+  raw <- df %>%
+    dplyr::select(date, bsf, gwi, rdi) %>%
+    pivot_longer(-date, names_to="measure", values_to="raw")
+
+  mdl <- df %>%
+    dplyr::select(date, bsf=bsf_model, gwi=gwi_model, rdi=rdi_model) %>%
+    pivot_longer(-date, names_to="measure", values_to="model")
+
+  tmp <- raw %>%
+    left_join(mdl, by=c("date", "measure"))
+
+  tmp %>%
+    ggplot(aes(date, raw)) +
+    geom_line() +
+    geom_line(aes(y=model), col="red") +
+    facet_grid(measure ~ .) +
+    labs(x="", y="flow (gpd)")
+}
