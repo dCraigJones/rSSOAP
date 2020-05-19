@@ -43,9 +43,10 @@ isolate_daily_gwi <- function(date, flow, rain, HIGH_PASS=0.1) {
 isolate_daily_bsf <- function(date, flow, rain) {
   #gwi <- isolate_daily_gwi(date, flow, rain)
 
-  #diurnal <- isolate_daily_dwf(date, flow-gwi, rain)
-
   tmp <- data.frame(date=date, flow=flow, rain=rain)
+
+  diurnal <- isolate_daily_dwf(date, flow, rain)
+
 
   retVal <- tmp %>%
     mutate(wday=lubridate::wday(date)) %>%
