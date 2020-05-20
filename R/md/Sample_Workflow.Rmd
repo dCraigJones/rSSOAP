@@ -121,3 +121,27 @@ plot(uh.2, type="n")
 lines(uh.2)
 lines(uh.3)
 ```
+```{r}
+rain_ <- hourly_rain %>%
+  filter(station=="BUCKMN")
+
+
+tmp <- hourly_flow %>%
+  filter(str_detect(location, "Tow")) %>%
+  mutate(date=date(datehour)) %>%
+  filter(date>mdy("10/5/2018")) %>% 
+  filter(date<mdy("01/01/2020")) %>%
+  left_join(rain_, by=c("datehour"="datetime")) %>%
+  left_join(df, by="date")
+  
+
+date <- tmp$datehour
+flow <- tmp$flow.x-tmp$gwi_model/1440*60-tmp$rdi_model/1440*60
+rain <- tmp$rainfall_in
+
+plot(date, flow, type="l", col=rgb(0.25,0.25,0.25,0.25))
+abline(h=0)
+lines(date, rain*500, lwd=2, col="blue")
+#df <- data.frame(date=date, flow=flow, rain=rain)
+
+```
