@@ -139,9 +139,15 @@ date <- tmp$datehour
 flow <- tmp$flow.x-tmp$gwi_model/1440*60-tmp$rdi_model/1440*60
 rain <- tmp$rainfall_in
 
+hf <- data.frame(date=date, flow=flow, rain=rain)
+
 plot(date, flow, type="l", col=rgb(0.25,0.25,0.25,0.25))
 abline(h=0)
 lines(date, rain*500, lwd=2, col="blue")
-#df <- data.frame(date=date, flow=flow, rain=rain)
+
+# consider calculating GWI from night-time flow.
+# next step is to extract diurnal pattern
+
+
 
 ```
