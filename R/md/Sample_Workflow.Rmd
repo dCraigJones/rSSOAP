@@ -4,16 +4,16 @@ output: html_notebook
 ---
 
 ```{r, include=FALSE}
-source("./R/clean.R")
-source("./R/shape.R")
-source("./R/isolate.R")
-source("./R/model.R")
-source("./R/draw.R")
-source("./R/util.R")
+source("../../R/clean.R")
+source("../../R/shape.R")
+source("../../R/isolate.R")
+source("../../R/model.R")
+source("../../R/draw.R")
+source("../../R/util.R")
 
-load("./data/hourly_rain.RData")
-load("./data/hourly_flow.RData")
-
+load("../../data/hourly_rain.RData")
+load("../../data/hourly_flow.RData")
+# 
 library(dplyr)
 library(zoo)
 library(lubridate)
@@ -67,7 +67,7 @@ rain_ <- hourly_rain %>%
 
 
 tmp <- hourly_flow %>%
-  filter(str_detect(location, "Mer")) %>%
+  filter(str_detect(location, "Tow")) %>%
   mutate(date=date(datehour)) %>%
   filter(date>mdy("10/5/2018")) %>% 
   filter(date<mdy("01/01/2020")) %>%
@@ -93,7 +93,7 @@ df$scrub <- remove_outliers(df$flow)
 ### Dry-Weather Flow
 ```{r}
 df$gwi <- isolate_daily_gwi(df$date, df$scrub, df$rain)
-uh.3 <- shape_daily_hydrograph(df$date, df$gwi, df$rain, 60, 0.25)
+uh.3 <- shape_daily_hydrograph(df$date, df$gwi, df$rain, 14, 0.25, 1)
 df$gwi_model <- model_hydrograph(df$rain, uh.3)
 
 df$bsf <- df$scrub - df$gwi_model
@@ -104,7 +104,7 @@ df$bsf_model <- isolate_daily_bsf(df$date, df$bsf, df$rain)
 ### Wet-Weather Flow
 ```{r}
 df$rdi <- df$scrub - df$bsf_model - df$gwi_model
-uh.2 <- shape_daily_hydrograph(df$date, df$rdi, df$rain, 20, 0.25)
+uh.2 <- shape_daily_hydrograph(df$date, df$rdi, df$rain, 7, 0.25, 10)
 df$rdi_model <- model_hydrograph(df$rain, uh.2)
 ```
 
@@ -114,4 +114,10 @@ df$rdi_model <- model_hydrograph(df$rain, uh.2)
 df$model <- df$bsf + df$gwi + df$rdi
 df$residual <- df$model-df$scrub
 df$error <- df$residual/df$scrub
+
+draw_model_qaqc(df)
+
+plot(uh.2, type="n")
+lines(uh.2)
+lines(uh.3)
 ```
