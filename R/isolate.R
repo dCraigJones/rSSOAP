@@ -68,3 +68,70 @@ isolate_daily_rdi <- function(date, flow, rain, INITIAL_ABSTRACTION=0.5) {
 
   return(Q.m)
 }
+
+
+isolate_hourly_dwf <- function(date, flow, rain
+                              , MAX_RAIN_TODAY=0.1
+                              , MAX_RAIN_SHORT=0.5
+                              , DAY_RAIN_SHORT=12
+                              , MAX_RAIN_LONG=1
+                              , DAY_RAIN_LONG=24
+                              , MAX_STDEV=2) {
+
+  MAX_FLOW <- mean(flow, na.rm=TRUE)+MAX_STDEV*sd(flow, na.rm=TRUE)
+  MIN_FLOW <- mean(flow, na.rm=TRUE)-MAX_STDEV*sd(flow, na.rm=TRUE)
+
+  tmp <- data.frame(date=date, flow=flow, rain=rain)
+
+  dwf <- tmp %>%
+    mutate(lag_short=zoo::rollapply(rain, DAY_RAIN_SHORT, sum, align="right", fill=0)) %>%
+    mutate(lag_long=zoo::rollapply(rain, DAY_RAIN_LONG, sum, align="right", fill=0)) %>%
+    filter(rain<= MAX_RAIN_TODAY & lag_short<=MAX_RAIN_SHORT & lag_long <= MAX_RAIN_LONG) %>%
+    filter(flow<=MAX_FLOW & flow >= MIN_FLOW) %>%
+    mutate(wday=wday(date)+hour(date)/24) %>%
+    group_by(wday) %>%
+    summarize(dwf=mean(flow, na.rm=TRUE))
+
+  return(dwf)
+}
+
+
+isolate_hourly_gwi <- function(datetime, flow, rain, pct_of_ntf=0.8){
+  tmp <- data.frame(datetime, flow, rain)
+
+  ntf <- tmp %>%
+    mutate(date=date(datetime)) %>%
+    mutate(hour=hour(datetime)) %>%
+    filter(hour>20 | hour<6) %>%
+    group_by(date) %>%
+    summarize(ntf=min(flow))
+
+  ntf$ntf2 <- remove_outliers(ntf$ntf)
+
+  use <- tmp %>%
+    mutate(date=date(datetime)) %>%
+    left_join(ntf, by="date") %>%
+    mutate(gwi=ntf2*pct_of_ntf) %>%
+    dplyr::select(datetime, flow, rain, gwi) %>%
+    mutate(wk=week(date))
+
+  export <- use %>%
+    group_by(wk) %>%
+    summarize(gwi2=mean(gwi, na.rm=TRUE)) %>%
+    right_join(use, by="wk")
+
+  #return(export$gwi2)
+  return(use$gwi)
+
+}
+
+isolate_hourly_bsf <- function(datetime, flow, rain, diurnal) {
+  tmp <- data.frame(datetime, flow, rain)
+
+  export <- tmp %>%
+    mutate(wday=wday(datetime)+hour(datetime)/24) %>%
+    left_join(diurnal, by="wday") %>%
+    mutate(bsf=dwf)
+
+  return(export$bsf)
+}
