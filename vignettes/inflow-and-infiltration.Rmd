@@ -67,4 +67,6 @@ $$ \text{flow} = \underbrace{\overbrace{BSF + GWI}^{DWF} + RDI}_{WWF} + \epsilon
 - __SHAPE__ *signal* into a *hydrograph*
 - __MODEL__ *hydrograph* into a *response*
 - __DRAW__ custom *graphs* to summarize results.
+
+Link: https://www3.epa.gov/region1/sso/pdfs/Guide4EstimatingInfiltrationInflow.pdf
 ...
