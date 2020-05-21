@@ -10,6 +10,7 @@ source("../../R/isolate.R")
 source("../../R/model.R")
 source("../../R/draw.R")
 source("../../R/util.R")
+source("../../R/print.R")
 
 load("../../data/hourly_rain.RData")
 load("../../data/hourly_flow.RData")
@@ -59,7 +60,7 @@ library(ggplot2); theme_set(theme_bw())
 ### Load Data
 ```{r}
 rain_ <- hourly_rain %>%
-  filter(station=="BUCKMN")
+  filter(station=="BRWD")
 
 
 tmp <- hourly_flow %>%
@@ -75,13 +76,25 @@ flow <- tmp$flow
 rain <- tmp$rainfall_in
 
 hf <- data.frame(datetime=date, flow=flow, rain=rain)
+
+load("../../data/lav4181.RData")
+
+tmp <- lav4181 %>%
+  mutate(flow_gpm=runtime_min*pump_gpm/60) %>%
+  left_join(rain_, by=c("datehour"="datetime"))
+
+date <- tmp$datehour
+flow <- tmp$flow_gpm
+rain <- tmp$rainfall_in
+
+hf <- data.frame(datetime=date, flow=flow, rain=rain)
 ```
 ### Night-Time Flow
 Assume GWI is 80% of Night-Time Flow
 ```{r}
 hf$scrub <- remove_outliers(hf$flow)
 
-hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain)
+hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain, 0.9)
 
 diurnal <- isolate_hourly_dwf(hf$datetime, hf$scrub-hf$gwi, hf$rain)
 
