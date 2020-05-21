@@ -1,19 +1,4 @@
-# TO-DO
-#
-# Draw.Panels
-# make input consistant
-# fix error checking
-# Change GWI plot to histogram?
-# fix legend or remove legend?
-# change color of design storm abline/mtext
-
-
 draw_daily_summary <- function(date, flow, rain) {
-
-# date <- DF$date
-# flow <- DF$Hollybrook
-# rain <- DF$rain
-
   Max.Daily.Flow = ceiling(max(flow)/1e3)
 
   layout(matrix(c(1,2,3,4,4,4), ncol=2, byrow = FALSE), widths=c(1,3))
@@ -145,7 +130,6 @@ draw_daily_summary <- function(date, flow, rain) {
   #return(H)
 }
 
-
 draw_model_qaqc <- function(df) {
 
   raw <- df %>%
@@ -213,7 +197,7 @@ draw_diurnal <- function(diurnal) {
   plot(diurnal
    , axes=F
    , xlab=""
-   , ylab="base wastewater flow (gpm)"
+   , ylab="bwf (gpm)"
    , type="l"
    , lwd=2
    )
@@ -240,7 +224,7 @@ draw_gwi <- function(datetime, gwi) {
   plot(datetime
    , rollapply(tmp$gwi_wk, 14*24, mean, na.rm=TRUE, fill=NA)
    , type="l"
-   , ylab="ground water infiltration (gpm)"
+   , ylab="gwi (gpm)"
    , xlab=""
    , lwd=2
   )
@@ -249,10 +233,12 @@ draw_gwi <- function(datetime, gwi) {
 
 }
 
-draw_hydrograph <- function(uh) {
-  plot(0:24, uh
+draw_hydrograph <- function(uh, P=7.56) {
+  tmp <- model_hydrograph(SCS_6_hr*7.56, uh)
+
+  plot(0:23, tmp[1:24]
     , xlab="time (hrs)"
-    , ylab="rainfall derived inflow (gpm)"
+    , ylab="rdi (gpm)\n25-year 6-hour"
     , type="l"
     , lwd=2
     , axes=FALSE
@@ -262,7 +248,6 @@ draw_hydrograph <- function(uh) {
   box(lwd=2)
 
 }
-
 
 draw_ii <- function(datetime, flow, gwi, model, diurnal, uh, STATION_NAME="") {
     layout(matrix(c(1,1,2,2,3,4), nrow=3, byrow=TRUE))
