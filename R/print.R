@@ -71,6 +71,7 @@ print_summary <- function(hf, diurnal, uh) {
 
     dwf_95p <- max(bsf_wkday/1.44*pf_wkday_95p, bsf_wkend/1.44*pf_wkend_95p)+gwi_95p/1.44
     wwf_99p_25yr <- max(bsf_wkday/1.44*pf_wkday_99p, bsf_wkend/1.44*pf_wkend_99p)+gwi_99p/1.44+rdi_25yr
+    volume_inflow <- mean(uh)*1440
 
   cat(
   "--- Base Sewer Flow (kGPD) ---------------","\n",
@@ -93,6 +94,8 @@ print_summary <- function(hf, diurnal, uh) {
   "5-YR:	 ", round(rdi_5yr, 1),"\n",
   "25-YR:  ", round(rdi_25yr, 1),"\n",
   "100-YR: ", round(rdi_100yr, 1),"\n",
+  "\n",
+  "Total Volume:", round(volume_inflow/1000, 2), "kGal/inch","\n",
   "\n",
   "--- Peak Hourly Flow (GPM) ---------------","\n",
   "DWF (95%): ", round(dwf_95p, 1), "\n",
