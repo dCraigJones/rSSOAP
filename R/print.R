@@ -42,7 +42,7 @@ print_summary <- function(hf, diurnal, uh) {
     mutate(pf99 = phf99/adf_gpm) %>%
     dplyr::select(isWkDay, pf90, pf95, pf99)
 
-  gwi_kGPD <- quantile(hf$gwi*1.44, probs=c(.9, .95, .99))
+  gwi_kGPD <- quantile(hf$gwi*1.44, probs=c(.05, .95, .99))
 
   rdi_gpm <- data.frame(
       return=c("MA", "5-YR", "25-YR", "100-YR", "500-YR")
@@ -61,7 +61,7 @@ print_summary <- function(hf, diurnal, uh) {
     pf_wkend_90p <- as.numeric(peak_factor[2,2])
     pf_wkend_95p <- as.numeric(peak_factor[2,3])
     pf_wkend_99p <- as.numeric(peak_factor[2,4])
-    gwi_90p <- as.numeric(gwi_kGPD[1])
+    gwi_5p <- as.numeric(gwi_kGPD[1])
     gwi_95p <- as.numeric(gwi_kGPD[2])
     gwi_99p <- as.numeric(gwi_kGPD[3])
     rdi_ma <- as.numeric(rdi_gpm[1,3])
@@ -84,7 +84,7 @@ print_summary <- function(hf, diurnal, uh) {
   "Weekend:   ", round(pf_wkend_90p, 2), "  ", round(pf_wkend_95p, 2), "  ", round(pf_wkend_99p, 2),"\n",
   "\n",
   "--- Ground Water Infiltration (kGPD) -------","\n",
-  "90%: ", round(gwi_90p, 1), "(", round(gwi_90p/1.44, 1), "gpm )","\n",
+  " 5%: ", round(gwi_5p, 1), "(", round(gwi_5p/1.44, 1), "gpm )","\n",
   "95%: ", round(gwi_95p, 1), "(", round(gwi_95p/1.44, 1), "gpm )","\n",
   "99%: ", round(gwi_99p, 1), "(", round(gwi_99p/1.44, 1), "gpm )","\n",
   "\n",

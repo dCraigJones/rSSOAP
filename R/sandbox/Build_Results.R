@@ -10,7 +10,7 @@ rain_ <- hourly_rain %>%
   filter(station=="SOWEST")
 
 tmp <- hourly_flow %>%
-  filter(str_detect(location, "Tow")) %>%
+  filter(str_detect(location, "Len")) %>%
   mutate(date=date(datehour)) %>%
   filter(date>mdy("9/1/2018")) %>%
   filter(date<mdy("01/01/2020")) %>%
