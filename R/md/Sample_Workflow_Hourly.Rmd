@@ -1,9 +1,13 @@
 ---
-title: "Workflow"
-output: html_notebook
+output: pdf_document
+params:
+  date: NA
+  flow: NA
+  rain: NA
+  gwi_pct: 0.8
 ---
-
-```{r, include=FALSE}
+\pagenumbering{gobble}
+```{r, include=FALSE, warning=FALSE}
 source("../../R/clean.R")
 source("../../R/shape.R")
 source("../../R/isolate.R")
@@ -14,87 +18,23 @@ source("../../R/print.R")
 
 load("../../data/hourly_rain.RData")
 load("../../data/hourly_flow.RData")
-# 
+
 library(dplyr)
 library(zoo)
 library(lubridate)
 library(vars)
-library(imputeTS)
-library(stringr)
-library(tidyr)
-library(ggplot2); theme_set(theme_bw())
-```
-
-##Workflow:
-
-### Load Data
- 
- - date, *defined*
- - flow, *defined*
- - rain, *defined*
- 
-### Scrub Data
-
- - scrub, cleaned
-
-### Dry-Weather Flow
-
- - gwi
- - gwi_model
- - bsf
- - bsf_model
- 
-### Wet-Weather Flow
-
- - rdi
- - rdi_model
- 
-### Final Model
-
- - model
- - residual
- - error
-
-## Example
-
-### Load Data
-```{r}
-rain_ <- hourly_rain %>%
-  filter(station=="BUCKMN")
-
-
-tmp <- hourly_flow %>%
-  filter(str_detect(location, "Mer")) %>%
-  mutate(date=date(datehour)) %>%
-  filter(date>mdy("9/1/2018")) %>% 
-  filter(date<mdy("01/01/2020")) %>%
-  left_join(rain_, by=c("datehour"="datetime"))
-  
-
-date <- tmp$datehour
-flow <- tmp$flow
-rain <- tmp$rainfall_in
+#library(imputeTS)
+#library(stringr)
+#library(tidyr)
+#library(ggplot2); theme_set(theme_bw())
 
 hf <- data.frame(datetime=date, flow=flow, rain=rain)
-
-# load("../../data/lav4181.RData")
-# 
-# tmp <- lav4181 %>%
-#   mutate(flow_gpm=runtime_min*pump_gpm/60) %>%
-#   left_join(rain_, by=c("datehour"="datetime"))
-# 
-# date <- tmp$datehour
-# flow <- tmp$flow_gpm
-# rain <- tmp$rainfall_in
-# 
-# hf <- data.frame(datetime=date, flow=flow, rain=rain)
 ```
-### Night-Time Flow
-Assume GWI is 80% of Night-Time Flow
-```{r}
+
+```{r, echo=FALSE}
 hf$scrub <- remove_outliers(hf$flow)
 
-hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain)
+hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain,  params$gwi_pct)
 
 diurnal <- isolate_hourly_dwf(hf$datetime, hf$scrub-hf$gwi, hf$rain)
 
@@ -112,5 +52,6 @@ hf$rdi <- model_hydrograph(hf$rain, uh)
 
 hf$model <- hf$bsf+hf$gwi+hf$rdi
 
-draw_ii(hf$datetime, hf$scrub, hf$gwi, hf$model, diurnal, uh, tmp$location[1])
+draw_ii(hf$datetime, hf$scrub, hf$gwi, hf$model, diurnal, uh)
+print_summary(hf, diurnal, uh)
 ```

@@ -197,7 +197,7 @@ draw_diurnal <- function(diurnal) {
   plot(diurnal
    , axes=F
    , xlab=""
-   , ylab="bwf (gpm)"
+   , ylab="BSF (gpm)"
    , type="l"
    , lwd=2
    )
@@ -224,7 +224,7 @@ draw_gwi <- function(datetime, gwi) {
   plot(datetime
    , rollapply(tmp$gwi_wk, 14*24, mean, na.rm=TRUE, fill=NA)
    , type="l"
-   , ylab="gwi (gpm)"
+   , ylab="GWI (gpm)"
    , xlab=""
    , lwd=2
   )
@@ -238,7 +238,7 @@ draw_hydrograph <- function(uh, P=7.56) {
 
   plot(0:23, tmp[1:24]
     , xlab="time (hrs)"
-    , ylab="rdi (gpm)\n25-year 6-hour"
+    , ylab="RDI (gpm)\n25-year 6-hour"
     , type="l"
     , lwd=2
     , axes=FALSE

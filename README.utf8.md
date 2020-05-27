@@ -6,14 +6,8 @@ Analysis using the [EPA SSOAP](https://www.epa.gov/water-research/sanitary-sewer
 ## Installation
 ```
 library(devtools)
-devtools::install_github("dCraigJones/rSSOAP")
+devtools::install_github("dCraigJones/n185")
 ```
-
-## Background
-
-Wastewater flow patterns are a complex phenomenon that are often sub-divided into Dry-Weather Flow and Wet-Weather Flow.  Dry-Weather Flow (DWF) is the combination of Base Sewer Flow (BSF) and Ground Water Intrustion (GWI).  BSF is the collected wastewater from customers that follows a predictable daily pattern in aggregate, called a diurnal.  GWI is the relatively constant flow from leaky infrasturcture during periods of high groundwater table.  Wet-Weather Flow (WWF) is the addition of Rainfall Derived Inflow (RDI) to DWF.
-
-$$ \text{flow} = \underbrace{\overbrace{BSF + GWI}^{DWF} + RDI}_{WWF} + \epsilon $$
 
 ## Usage
 *work in progress*
