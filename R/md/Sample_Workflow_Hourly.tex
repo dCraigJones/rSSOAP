@@ -85,47 +85,43 @@
 
 \pagenumbering{gobble}
 
-\begin{verbatim}
-## Registered S3 method overwritten by 'xts':
-##   method     from
-##   as.zoo.xts zoo
-\end{verbatim}
-
-\begin{verbatim}
-## Registered S3 method overwritten by 'quantmod':
-##   method            from
-##   as.zoo.data.frame zoo
-\end{verbatim}
-
 \includegraphics{Sample_Workflow_Hourly_files/figure-latex/unnamed-chunk-2-1.pdf}
 
 \begin{verbatim}
 ##  --- Base Sewer Flow (kGPD) ----------------- 
-##  Weekday:  551.9 
-##  Weekend:  576.3 
+##  Weekday:  623.8 
+##  Weekend:  651.5 
 ##  
 ##  --- Peaking Factor ------------------------- 
-##               90%     95%     99% 
-##  Weekday:    2.1    2.16    2.46 
-##  Weekend:    1.98    2.08    2.21 
+##               min     95%     99% 
+##  Weekday:    0.12    2.05    2.32 
+##  Weekend:    0.08    1.94    2.09 
 ##  
 ##  --- Ground Water Infiltration (kGPD) ------- 
-##   5%:  322.8 ( 224.2 gpm ) 
-##  95%:  730 ( 506.9 gpm ) 
-##  99%:  856.4 ( 594.8 gpm ) 
+##   5%:  271.8 ( 188.8 gpm ) 
+##  95%:  614.7 ( 426.9 gpm ) 
+##  99%:  721.2 ( 500.8 gpm ) 
 ##  
 ##  --- Rainfall Derived Inflow (GPM) ---------- 
 ##        6-hour SCS Type-II Storm 
-##  MA:     100 
-##  5-YR:     122.7 
-##  25-YR:   189.4 
-##  100-YR:  265.5 
+##      MA:  103.3 
+##    5-YR:  126.9 
+##   25-YR:  195.8 
+##  100-YR:  274.5 
 ##  
-##  Total Volume: 9.09 kGal/inch ( 18.73 acre ) 
+##  Total Volume: 9.21 kGal/inch ( 18.99 acre ) 
 ##  
 ##  --- Peak Hourly Flow (GPM) ----------------- 
-##  DWF (95%):  1340.5 
-##  WWF (99%):  1727.2 (25-YR 6-HR)
+##  DWF (95%):  1,315.2 
+##  WWF (99%):  1,699.9 (25-YR 6-HR)
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 2 x 4
+##   isWkDay  mf10    mf5    mf1
+##   <chr>   <dbl>  <dbl>  <dbl>
+## 1 Weekday 0.136 0.118  0.0618
+## 2 Weekend 0.132 0.0801 0.0148
 \end{verbatim}
 
 

@@ -42,6 +42,30 @@ print_summary <- function(hf, diurnal, uh) {
     mutate(pf99 = phf99/adf_gpm) %>%
     dplyr::select(isWkDay, pf90, pf95, pf99)
 
+  pmin_gpm <- hf %>%
+    mutate(dwf=scrub-gwi-rdi) %>%
+    filter(dwf>0) %>%
+    mutate(wday=wday(datetime)+hour(datetime)/24) %>%
+    group_by(wday) %>%
+    summarize(p10=quantile(dwf, probs=0.1)
+              , p5=quantile(dwf, probs=0.05)
+              , p1=quantile(dwf, probs=0.01)
+    ) %>%
+    mutate(day=floor(wday)) %>%
+    mutate(isWkDay=ifelse(day==1|day==7, "Weekend", "Weekday")) %>%
+    group_by(isWkDay) %>%
+    summarize(mhf10=quantile(p10, probs=0.10)
+              , mhf5=quantile(p5, probs=0.05)
+              , mhf1=quantile(p1, probs=0.01)
+    )
+
+  minimum_flow <- full_join(bwf_kGPD, pmin_gpm, by="isWkDay") %>%
+    mutate(adf_gpm=adf_kGPD*1e3/1440) %>%
+    mutate(mf10 = mhf10/adf_gpm) %>%
+    mutate(mf5 = mhf5/adf_gpm) %>%
+    mutate(mf1 = mhf1/adf_gpm) %>%
+    dplyr::select(isWkDay, mf10, mf5, mf1)
+
   gwi_kGPD <- quantile(hf$gwi*1.44, probs=c(.05, .95, .99))
 
   rdi_gpm <- data.frame(
@@ -61,6 +85,8 @@ print_summary <- function(hf, diurnal, uh) {
     pf_wkend_90p <- as.numeric(peak_factor[2,2])
     pf_wkend_95p <- as.numeric(peak_factor[2,3])
     pf_wkend_99p <- as.numeric(peak_factor[2,4])
+    mf_wkday_5p <- as.numeric(minimum_flow[1,3])
+    mf_wkend_5p <- as.numeric(minimum_flow[2,3])
     gwi_5p <- as.numeric(gwi_kGPD[1])
     gwi_95p <- as.numeric(gwi_kGPD[2])
     gwi_99p <- as.numeric(gwi_kGPD[3])
@@ -79,9 +105,9 @@ print_summary <- function(hf, diurnal, uh) {
   "Weekend: ", round(bsf_wkend, 1),"\n",
   "\n",
   "--- Peaking Factor -------------------------","\n",
-  "             90%     95%     99%","\n",
-  "Weekday:   ", round(pf_wkday_90p, 2), "  ", round(pf_wkday_95p, 2), "  ", round(pf_wkday_99p, 2),"\n",
-  "Weekend:   ", round(pf_wkend_90p, 2), "  ", round(pf_wkend_95p, 2), "  ", round(pf_wkend_99p, 2),"\n",
+  "             min     95%     99%","\n",
+  "Weekday:   ", round(mf_wkday_5p, 2), "  ", round(pf_wkday_95p, 2), "  ", round(pf_wkday_99p, 2),"\n",
+  "Weekend:   ", round(mf_wkend_5p, 2), "  ", round(pf_wkend_95p, 2), "  ", round(pf_wkend_99p, 2),"\n",
   "\n",
   "--- Ground Water Infiltration (kGPD) -------","\n",
   " 5%: ", round(gwi_5p, 1), "(", round(gwi_5p/1.44, 1), "gpm )","\n",
@@ -90,14 +116,16 @@ print_summary <- function(hf, diurnal, uh) {
   "\n",
   "--- Rainfall Derived Inflow (GPM) ----------","\n",
   "      6-hour SCS Type-II Storm","\n",
-  "MA:	   ", round(rdi_ma, 1),"\n",
-  "5-YR:	 ", round(rdi_5yr, 1),"\n",
-  "25-YR:  ", round(rdi_25yr, 1),"\n",
+  "    MA: ", round(rdi_ma, 1),"\n",
+  "  5-YR: ", round(rdi_5yr, 1),"\n",
+  " 25-YR: ", round(rdi_25yr, 1),"\n",
   "100-YR: ", round(rdi_100yr, 1),"\n",
   "\n",
   "Total Volume:", round(volume_inflow/1000, 2), "kGal/inch",  "(",round(volume_inflow*7.4805/43560*12, 2) ,"acre )", "\n",
   "\n",
   "--- Peak Hourly Flow (GPM) -----------------","\n",
-  "DWF (95%): ", round(dwf_95p, 1), "\n",
-  "WWF (99%): ", round(wwf_99p_25yr, 1), "(25-YR 6-HR)")
+  "DWF (95%): ", prettyNum(round(dwf_95p, 1), big.mark = ","), "\n",
+  "WWF (99%): ", prettyNum(round(wwf_99p_25yr, 1), big.mark = ","), "(25-YR 6-HR)")
+
+  minimum_flow
 }

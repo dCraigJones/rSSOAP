@@ -26,6 +26,6 @@ rmarkdown::render("R/md/Sample_Workflow_Hourly.Rmd"
           date = tmp$datehour
         , flow = tmp$flow
         , rain = tmp$rainfall_in
-        , gwi_pct=0.95
+        , gwi_pct=0.80
    )
 )
