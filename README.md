@@ -9,63 +9,50 @@ library(devtools)
 devtools::install_github("dCraigJones/rSSOAP")
 ```
 
+<img src="fig/hourly_summary.png" alt="drawing" style="width:600px;align:middle;"/>
+
 ## Background
 
-Wastewater flow patterns are a complex phenomenon that are often sub-divided into Dry-Weather Flow and Wet-Weather Flow.  Dry-Weather Flow (DWF) is the combination of Base Sewer Flow (BSF) and Ground Water Intrustion (GWI).  BSF is the collected wastewater from customers that follows a predictable daily pattern in aggregate, called a diurnal.  GWI is the relatively constant flow from leaky infrasturcture during periods of high groundwater table.  Wet-Weather Flow (WWF) is the addition of Rainfall Derived Inflow (RDI) to DWF.
+Wastewater flow patterns are a complex phenomenon that are often sub-divided into Dry-Weather Flow and Wet-Weather Flow.  **Dry-Weather Flow (DWF)** is the combination of **Base Sewer Flow (BSF)** and **Ground Water Intrustion (GWI)**.  BSF is the collected wastewater from customers that follows a predictable daily pattern in aggregate, called a diurnal.  GWI is the relatively constant flow from leaky infrasturcture during periods of high groundwater table.  **Wet-Weather Flow (WWF)** is the addition of **Rainfall Derived Inflow (RDI)** to DWF.  RDI is increased flow following rain events, usually defined by an unit hydrograph.  The final component is an error term ($\epsilon$), which includes iid noise and allows for uncertainty during special events such as holidays, abnormal weather, and mechanical issues.
 
 $$ \text{flow} = \underbrace{\overbrace{BSF + GWI}^{DWF} + RDI}_{WWF} + \epsilon $$
+
+In general, BSF should correspond to a percentage of water consumption.  GWI is often measured in terms of upstream gravity pipelines, in terms of GPD/IDM (or Gallons/Day per Inch-Diameter Miles).  RDI is usually measured as a percentage of total runoff.
+
+```
+ --- Base Sewer Flow (kGPD) ----------------
+ Weekday: 623.8 
+ Weekend: 651.5 
+ 
+ --- Peaking Factor ------------------------
+           90%  95%  99% 
+ Weekday: 1.98 2.05 2.32 
+ Weekend: 1.87 1.94 2.09 
+ 
+ --- Ground Water Infiltration (kGPD) ------
+ 90%: 543.2 ( 377.2 gpm ) 
+ 95%: 614.7 ( 426.9 gpm ) 
+ 99%: 721.2 ( 500.8 gpm ) 
+ 
+ --- Rainfall Derived Inflow (GPM) ---------
+ 6-hour SCS Type-II Storm 
+ MA:       93.1 
+ 5-YR:    114.3 
+ 25-YR:   176.4 
+ 100-YR:  247.3 
+ 
+ Total Volume: 8.56 kGal/inch ( 17.64 acre ) 
+ 
+ --- Peak Hourly Flow (GPM) ----------------
+ DWF (95%): 1315.2 
+ WWF (99%): 1680.5 (25-YR 6-HR)
+```
+
 
 ## Usage
 *work in progress*
 
-![alt text](md/summary.jpg)
-
-### Growth (Annual Trend)
-
-### Long-Term (GWI)
-#### Maximum Value
-#### Regression
-#### Hydrograph
   
-### Intermediate-Term (Daily RDI)
-#### Maximum Value
-#### Regression
-#### Hydrograph
-
-### Short-Term (Hourly RDI)
-#### Maximum Value
-#### Regression
-#### Hydrograph
-### Inputs (date, flow, rain)
-  - _date_, in POSIX date format
-  - _flow_, in GPD, cumulative wastewater flow
-  - _rain_, in inches/day, cumulative rainfall
-  
-  
-### Troikas (verb-adjective-noun)
-
-#### Verb
-  - _infer_, deduce flow patterns from flow and rainfall data
-
-#### Adjective
-  - _daily_, daily (24-hour) timestep
-
-#### Nouns
-  - _dwf_, Dry-Weather Flow
-  - _wwf_, Wet-Weather Flow (I&I)
-  - _gwi_, Groundwater Intrusion (Infiltration)
-  - _rdii_, Rainfall Derived Inflow and Infiltration (Inflow)
-  - _hydrograph_, unit hydrograph using data-derived SUH methods
-  
-### Utility Functions
-
-*work in progress*
-  
-
-## Example Workflow
-
-*work in progress*
-
 
 
 ## References
@@ -73,6 +60,8 @@ $$ \text{flow} = \underbrace{\overbrace{BSF + GWI}^{DWF} + RDI}_{WWF} + \epsilon
 [1](https://www.researchgate.net/publication/287852048_Rainfall_Derived_Inflow_and_Infiltration_Modeling_Approaches) Mikalson, Daley & Guo, Yiping & J. Adams, Barry. (2012). Rainfall Derived Inflow and Infiltration Modeling Approaches. Journal of Water Management Modeling. 10.14796/JWMM.R245-08. 
 
 [2](https://nepis.epa.gov/Adobe/PDF/P1008BBP.pdf) US EPA. (2007). Computer Tools for Sanitary Sewer System Capacity Analysis and Planning. Publication No. EPA/600/R-07/111.
+
+[3](https://www3.epa.gov/region1/sso/pdfs/Guide4EstimatingInfiltrationInflow.pdf) US EPA. (2014). Guide for Estimating Infiltration and Inflow.
 
 ## Other Packages
 This package is part of a water/wastewater planning toolset.  Other packages include:
