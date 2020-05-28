@@ -1,0 +1,57 @@
+---
+output: pdf_document
+params:
+  date: NA
+  flow: NA
+  rain: NA
+  gwi_pct: 0.8
+---
+\pagenumbering{gobble}
+```{r, include=FALSE, warning=FALSE}
+source("../../R/clean.R")
+source("../../R/shape.R")
+source("../../R/isolate.R")
+source("../../R/model.R")
+source("../../R/draw.R")
+source("../../R/util.R")
+source("../../R/print.R")
+
+load("../../data/hourly_rain.RData")
+load("../../data/hourly_flow.RData")
+
+library(dplyr)
+library(zoo)
+library(lubridate)
+library(vars)
+#library(imputeTS)
+#library(stringr)
+#library(tidyr)
+#library(ggplot2); theme_set(theme_bw())
+
+hf <- data.frame(datetime=date, flow=flow, rain=rain)
+```
+
+```{r, echo=FALSE}
+hf$scrub <- remove_outliers(hf$flow)
+
+hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain,  params$gwi_pct)
+
+diurnal <- isolate_hourly_dwf(hf$datetime, hf$scrub-hf$gwi, hf$rain)
+
+hf$bsf <- isolate_hourly_bsf(hf$datetime, hf$scrub, hf$rain, diurnal)
+
+uh <- shape_hourly_hydrograph(
+    hf$datetime
+  , hf$scrub-hf$gwi-hf$bsf
+  , hf$rain
+  , 24
+  , 0.1
+  , 1)
+
+hf$rdi <- model_hydrograph(hf$rain, uh)
+
+hf$model <- hf$bsf+hf$gwi+hf$rdi
+
+draw_ii(hf$datetime, hf$scrub, hf$gwi, hf$model, diurnal, uh)
+print_summary(hf, diurnal, uh)
+```

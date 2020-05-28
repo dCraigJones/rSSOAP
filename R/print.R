@@ -95,6 +95,7 @@ print_summary <- function(hf, diurnal, uh) {
     rdi_25yr <- as.numeric(rdi_gpm[3,3])
     rdi_100yr <- as.numeric(rdi_gpm[4,3])
 
+    min_5p <- min(bsf_wkday/1.44*mf_wkday_5p, bsf_wkend/1.44*mf_wkend_5p)+gwi_5p/1.44
     dwf_95p <- max(bsf_wkday/1.44*pf_wkday_95p, bsf_wkend/1.44*pf_wkend_95p)+gwi_95p/1.44
     wwf_99p_25yr <- max(bsf_wkday/1.44*pf_wkday_99p, bsf_wkend/1.44*pf_wkend_99p)+gwi_99p/1.44+rdi_25yr
     volume_inflow <- mean(uh)*1440
@@ -110,22 +111,20 @@ print_summary <- function(hf, diurnal, uh) {
   "Weekend:   ", round(mf_wkend_5p, 2), "  ", round(pf_wkend_95p, 2), "  ", round(pf_wkend_99p, 2),"\n",
   "\n",
   "--- Ground Water Infiltration (kGPD) -------","\n",
-  " 5%: ", round(gwi_5p, 1), "(", round(gwi_5p/1.44, 1), "gpm )","\n",
-  "95%: ", round(gwi_95p, 1), "(", round(gwi_95p/1.44, 1), "gpm )","\n",
-  "99%: ", round(gwi_99p, 1), "(", round(gwi_99p/1.44, 1), "gpm )","\n",
+  " 5%: ", format(round(gwi_5p, 1), nsmall=1), "(", format(round(gwi_5p/1.44, 1), nsmall=1), "gpm )","\n",
+  "95%: ", format(round(gwi_95p, 1), nsmall=1), "(", format(round(gwi_95p/1.44, 1), nsmall=1), "gpm )","\n",
+  "99%: ", format(round(gwi_99p, 1), nsmall=1), "(", format(round(gwi_99p/1.44, 1), nsmall=1), "gpm )","\n",
   "\n",
   "--- Rainfall Derived Inflow (GPM) ----------","\n",
   "      6-hour SCS Type-II Storm","\n",
   "    MA: ", round(rdi_ma, 1),"\n",
   "  5-YR: ", round(rdi_5yr, 1),"\n",
   " 25-YR: ", round(rdi_25yr, 1),"\n",
-  "100-YR: ", round(rdi_100yr, 1),"\n",
   "\n",
   "Total Volume:", round(volume_inflow/1000, 2), "kGal/inch",  "(",round(volume_inflow*7.4805/43560*12, 2) ,"acre )", "\n",
   "\n",
   "--- Peak Hourly Flow (GPM) -----------------","\n",
+  "min  (5%): ", prettyNum(round(min_5p, 1), big.mark = ","), "\n",
   "DWF (95%): ", prettyNum(round(dwf_95p, 1), big.mark = ","), "\n",
   "WWF (99%): ", prettyNum(round(wwf_99p_25yr, 1), big.mark = ","), "(25-YR 6-HR)")
-
-  minimum_flow
 }
