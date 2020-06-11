@@ -38,7 +38,7 @@ hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain,  params$gwi_pct)
 
 diurnal <- isolate_hourly_dwf(hf$datetime, hf$scrub-hf$gwi, hf$rain)
 
-hf$bsf <- isolate_hourly_bsf(hf$datetime, hf$scrub, hf$rain, diurnal)
+hf$bsf <- isolate_hourly_bsf(hf$datetime, hf$scrub-hf$gwi, hf$rain, diurnal)
 
 uh <- shape_hourly_hydrograph(
     hf$datetime
