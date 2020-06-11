@@ -1,0 +1,40 @@
+---
+author: "D. Craig Jones"
+date: "6/2/2020"
+output: html_document
+---
+
+```{r}
+shape_hourly_diurnal <- function(date, flow, rain
+                               , MAX_RAIN_CURRENT=0.1
+                               , MAX_RAIN_SHORT=0.5
+                               , HOUR_RAIN_SHORT=12
+                               , MAX_RAIN_LONG=1
+                               , HOUR_RAIN_LONG=24
+                               , MAX_STDEV=2) {
+
+  # Pump flow can have spikes due to non-rainfall related causes
+  # abnormal values are filters based on number of stnd deviations.
+  MAX_FLOW <- mean(flow, na.rm=TRUE)+MAX_STDEV*sd(flow, na.rm=TRUE)
+  MIN_FLOW <- mean(flow, na.rm=TRUE)-MAX_STDEV*sd(flow, na.rm=TRUE)
+
+  tmp <- data.frame(date=date, flow=flow, rain=rain)
+
+  diurnal <- tmp %>%
+    # lag_short is sum of previous DAY_HOUR_SHORT hours of rain
+    mutate(lag_short=zoo::rollapply(rain, DAY_RAIN_SHORT, sum, align="right", fill=0)) %>%
+    # lag_long is sum of previous HOUR_RAIN_LONG hours of rain
+    mutate(lag_long=zoo::rollapply(rain, DAY_RAIN_LONG, sum, align="right", fill=0)) %>%
+    # Identify dry-period by filtering for current and totalized rainfall
+    filter(rain<= MAX_RAIN_CURRENT & lag_short<=MAX_RAIN_SHORT & lag_long <= MAX_RAIN_LONG) %>%
+    # remove abnormal values that exceed stnd deviation criteria
+    filter(flow<=MAX_FLOW & flow >= MIN_FLOW) %>%
+    # convert to decimal days (Mon 6AM = 2.25) for diurnal calculation
+    mutate(wday=wday(date)+hour(date)/24) %>%
+    # calculate dirunal as mean of flow by decimal day
+    group_by(wday) %>%
+    summarize(diurnal=mean(flow, na.rm=TRUE))
+
+  return(diurnal)
+}
+```

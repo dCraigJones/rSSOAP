@@ -66,7 +66,7 @@ print_summary <- function(hf, diurnal, uh) {
     mutate(mf1 = mhf1/adf_gpm) %>%
     dplyr::select(isWkDay, mf10, mf5, mf1)
 
-  gwi_kGPD <- quantile(hf$gwi*1.44, probs=c(.05, .95, .99))
+  gwi_kGPD <- quantile(hf$gwi*1.44, probs=c(.10, .95, .99))
 
   rdi_gpm <- data.frame(
       return=c("MA", "5-YR", "25-YR", "100-YR", "500-YR")
@@ -85,8 +85,8 @@ print_summary <- function(hf, diurnal, uh) {
     pf_wkend_90p <- as.numeric(peak_factor[2,2])
     pf_wkend_95p <- as.numeric(peak_factor[2,3])
     pf_wkend_99p <- as.numeric(peak_factor[2,4])
-    mf_wkday_5p <- as.numeric(minimum_flow[1,3])
-    mf_wkend_5p <- as.numeric(minimum_flow[2,3])
+    mf_wkday_5p <- as.numeric(minimum_flow[1,2])
+    mf_wkend_5p <- as.numeric(minimum_flow[2,2])
     gwi_5p <- as.numeric(gwi_kGPD[1])
     gwi_95p <- as.numeric(gwi_kGPD[2])
     gwi_99p <- as.numeric(gwi_kGPD[3])
