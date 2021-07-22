@@ -20,32 +20,32 @@ Wastewater flow patterns are a complex phenomenon that are often sub-divided int
 In general, BSF should correspond to a percentage of water consumption.  GWI is often measured in terms of upstream gravity pipelines, in terms of GPD/IDM (or Gallons/Day per Inch-Diameter Miles).  RDI is usually measured as a percentage of total runoff.
 
 ```
- --- Base Sewer Flow (kGPD) ----------------
- Weekday: 623.8 
- Weekend: 651.5 
- 
- --- Peaking Factor ------------------------
-           90%  95%  99% 
- Weekday: 1.98 2.05 2.32 
- Weekend: 1.87 1.94 2.09 
- 
- --- Ground Water Infiltration (kGPD) ------
- 90%: 543.2 ( 377.2 gpm ) 
- 95%: 614.7 ( 426.9 gpm ) 
- 99%: 721.2 ( 500.8 gpm ) 
- 
- --- Rainfall Derived Inflow (GPM) ---------
- 6-hour SCS Type-II Storm 
- MA:       93.1 
- 5-YR:    114.3 
- 25-YR:   176.4 
- 100-YR:  247.3 
- 
- Total Volume: 8.56 kGal/inch ( 17.64 acre ) 
- 
- --- Peak Hourly Flow (GPM) ----------------
- DWF (95%): 1315.2 
- WWF (99%): 1680.5 (25-YR 6-HR)
+##  --- Base Sewer Flow (kGPD) ----------------- 
+##  Weekday:  101.8 
+##  Weekend:  99.1 
+##  
+##  --- Peaking Factor ------------------------- 
+##               min     95%     99% 
+##  Weekday:    0.12    2.41    4.67 
+##  Weekend:    0.12    2.44    4.66 
+##  
+##  --- Ground Water Infiltration (kGPD) ------- 
+##  50%:  62.1 ( 29.2 gpm ) 
+##  95%:  105.5 ( 73.2 gpm ) 
+##  99%:  193.2 ( 134.1 gpm ) 
+##  
+##  --- Rainfall Derived Inflow (GPM) ---------- 
+##        6-hour SCS Type-II Storm 
+##      MA:  323.7 
+##    5-YR:  397.5 
+##   25-YR:  613.2 
+##  
+##  Total Volume: 59.32 kGal/inch ( 122.23 acre ) 
+##  
+##  --- Peak Hourly Flow (GPM) ----------------- 
+##  min  (5%):  37.2 
+##  DWF (95%):  243.5 
+##  WWF (99%):  1,077.5 (25-YR 6-HR)
 ```
 
 
