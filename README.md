@@ -9,7 +9,7 @@ library(devtools)
 devtools::install_github("dCraigJones/rSSOAP")
 ```
 
-<img src="fig/hourly_summary.png" alt="drawing" style="width:600px;align:middle;"/>
+<img src="fig/hourly_summary.jpg" alt="drawing" style="width:600px;align:middle;"/>
 
 ## Background
 
