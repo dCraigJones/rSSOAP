@@ -15,7 +15,7 @@ devtools::install_github("dCraigJones/rSSOAP")
 
 Wastewater flow patterns are a complex phenomenon that are often sub-divided into Dry-Weather Flow and Wet-Weather Flow.  **Dry-Weather Flow (DWF)** is the combination of **Base Sewer Flow (BSF)** and **Ground Water Intrustion (GWI)**.  BSF is the collected wastewater from customers that follows a predictable daily pattern in aggregate, called a diurnal.  GWI is the relatively constant flow from leaky infrasturcture during periods of high groundwater table.  **Wet-Weather Flow (WWF)** is the addition of **Rainfall Derived Inflow (RDI)** to DWF.  RDI is increased flow following rain events, usually defined by an unit hydrograph.  The final component is an error term ($\epsilon$), which includes iid noise and allows for uncertainty during special events such as holidays, abnormal weather, and mechanical issues.
 
-<img src="https://latex.codecogs.com/gif.latex?\text{flow}%20=%20\underbrace{\overbrace{BSF%20+%20GWI}^{DWF}%20+%20RDI}_{WWF}%20+%20\epsilon" alt="drawing" style="width:300px;align:middle;"/>
+<img src="fig/DWF-WWF-Formula.jpg" alt="DWF v WWF" style="width:300px;align:middle;"/>
 
 In general, BSF should correspond to a percentage of water consumption.  GWI is often measured in terms of upstream gravity pipelines, in terms of GPD/IDM (or Gallons/Day per Inch-Diameter Miles).  RDI is usually measured as a percentage of total runoff.
 
@@ -49,11 +49,25 @@ In general, BSF should correspond to a percentage of water consumption.  GWI is 
 ```
 
 
-## Usage
-*work in progress*
+## Diagnostic Graphs
+### Q-i Chart
 
-  
+<img src="fig/Q-i_plot.jpg" alt="drawing" style="width:600px;align:middle;"/>
 
+### Event Timeseries
+<img src="fig/weekly-event-graph.jpg" alt="drawing" style="width:600px;align:middle;"/>
+
+## RTK Curve Fitting
+<img src="fig/rtk-parameters.jpg" alt="drawing" style="width:600px;align:middle;"/>
+<center>
+
+| # | R | T | K |
+|:-:|:-:|:-:|:-:|
+| 1 | 0.001942409 | 1.6918 | 2.9759 |
+| 2 | 0.002132323 | 2.8004 | 3.9940 |
+| 3 | 0.003341376 | 3.7522 | 5.6965 |
+
+</center>
 
 ## References
 
