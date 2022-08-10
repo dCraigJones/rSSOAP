@@ -1,7 +1,7 @@
 # rSSOAP
 
 ## Overview
-Analysis using the [EPA SSOAP](https://www.epa.gov/water-research/sanitary-sewer-overflow-analysis-and-planning-ssoap-toolbox) toolbox typically relies on weeks or months of flow meter and rain gauge data at timesteps ranging from 15-min to 1-hr. At this resolution, data collection can be costly, time-consuming, and contain noisy measurement errors.  Instead, rSSOAP relies on long-term (1 or 2 years) of daily flow and rain gauge data.
+Analysis using the [EPA SSOAP](https://www.epa.gov/water-research/sanitary-sewer-overflow-analysis-and-planning-ssoap-toolbox) toolbox typically relies on weeks or months of flow meter and rain gauge data at timesteps ranging from 5-min to 15-min. At this resolution, data collection can be costly, time-consuming, and contain noisy measurement errors.  Instead, rSSOAP relies on long-term (1 or 2 years) of hourly (or daily) flow and rain gauge data.  While less accurate, this approach is useful for developing planning-level wet-weather hydraulic models or identifying liftstation basins for further investigation.
 
 ## Installation
 ```
@@ -48,8 +48,18 @@ In general, BSF should correspond to a percentage of water consumption.  GWI is 
 ##  WWF (99%):  1,077.5 (25-YR 6-HR)
 ```
 
+## Liftstation Runtime Flow
+*Work in Progress*
 
-## Diagnostic Graphs
+## Rainfall
+
+### Public Rain Gauge Data
+*Work in Progress*
+
+### Double-Mass Curve
+*Work in Progress*
+
+## I&I Model - Diagnostic Graphs
 ### Q-i Chart
 
 <img src="fig/Q-i_plot.jpg" alt="drawing" style="width:600px;align:middle;"/>
@@ -57,7 +67,7 @@ In general, BSF should correspond to a percentage of water consumption.  GWI is 
 ### Event Timeseries
 <img src="fig/weekly-event-graph.jpg" alt="drawing" style="width:600px;align:middle;"/>
 
-## RTK Curve Fitting
+## Curve-Fitting RTK Parameters
 <img src="fig/rtk-parameters.jpg" alt="drawing" style="width:600px;align:middle;"/>
 <center>
 
