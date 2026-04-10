@@ -14,5 +14,9 @@ R/*.RData
 R/md/*.html
 R/md/*.RData
 
+# R data files
+*.RData
+data/*.RData
+
 # IDE
 rSSOAP.code-workspace
