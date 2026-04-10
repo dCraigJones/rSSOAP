@@ -13,14 +13,14 @@ params:
 ---
 \pagenumbering{gobble}
 ```{r, include=FALSE, warning=FALSE, message=FALSE, error=FALSE}
-source("../R/clean.R")
-source("../R/shape.R")
-source("../R/isolate.R")
-source("../R/model.R")
-source("../R/Draw.R")
-source("../R/util.R")
-source("../R/print.R")
-source("../R/def.R")
+source("../../clean.R")
+source("../../shape.R")
+source("../../isolate.R")
+source("../../model.R")
+source("../../Draw.R")
+source("../../util.R")
+source("../../print.R")
+source("../../def.R")
 
 #load("../../data/hourly_rain.RData")
 #load("../../data/hourly_flow.RData")
