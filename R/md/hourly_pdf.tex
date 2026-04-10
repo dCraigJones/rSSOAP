@@ -64,7 +64,7 @@
 \usepackage{titling}
 
 % Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
+\newcommand{\subtitle}[1]{
   \posttitle{
     \begin{center}\large#1\end{center}
     }
@@ -89,31 +89,31 @@
 
 \begin{verbatim}
 ##  --- Base Sewer Flow (kGPD) ----------------- 
-##  Weekday:  351.9 
-##  Weekend:  418.4 
+##  Weekday:  254 
+##  Weekend:  293 
 ##  
 ##  --- Peaking Factor ------------------------- 
 ##               min     95%     99% 
-##  Weekday:    0.07    2.55    3.07 
-##  Weekend:    0.06    2.29    2.54 
+##  Weekday:    0.09    3.19    3.64 
+##  Weekend:    0.07    2.66    2.96 
 ##  
 ##  --- Ground Water Infiltration (kGPD) ------- 
-##   5%:  155.4 ( 107.9 gpm ) 
-##  95%:  282.5 ( 196.2 gpm ) 
-##  99%:  316.7 ( 219.9 gpm ) 
+##   5%:  161.4 ( 112.1 gpm ) 
+##  95%:  288.0 ( 200.0 gpm ) 
+##  99%:  321.3 ( 223.1 gpm ) 
 ##  
 ##  --- Rainfall Derived Inflow (GPM) ---------- 
 ##        6-hour SCS Type-II Storm 
-##      MA:  70.3 
-##    5-YR:  86.3 
-##   25-YR:  133.1 
+##      MA:  126 
+##    5-YR:  154.7 
+##   25-YR:  238.8 
 ##  
-##  Total Volume: 7.76 kGal/inch ( 15.99 acre ) 
+##  Total Volume: 9.66 kGal/inch ( 19.9 acre ) 
 ##  
 ##  --- Peak Hourly Flow (GPM) ----------------- 
-##  min  (5%):  123.9 
-##  DWF (95%):  860.6 
-##  WWF (99%):  1,102.8 (25-YR 6-HR)
+##  min  (5%):  127.1 
+##  DWF (95%):  763.5 
+##  WWF (99%):  1,104.2 (25-YR 6-HR)
 \end{verbatim}
 
 
