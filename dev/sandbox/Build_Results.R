@@ -35,7 +35,7 @@ rain %>%
   right_join(tmp, by=c("datetime"="datehour")) -> tmp
 
 
-rmarkdown::render("R/hourly_html.Rmd"
+rmarkdown::render("dev/templates/hourly_html.Rmd"
    , params = list(
           date = tmp$datetime
         , flow = tmp$flow*1.15
@@ -61,7 +61,7 @@ rain %>%
 
 
 
-rmarkdown::render("R/hourly_html.Rmd"
+rmarkdown::render("dev/templates/hourly_html.Rmd"
                   , params = list(
                     date = tmp$datetime
                     , flow = tmp$flow*1.2
@@ -84,7 +84,7 @@ rain %>%
   right_join(tmp, by=c("datetime"="datehour")) -> tmp
 
 
-rmarkdown::render("R/hourly_html.Rmd"
+rmarkdown::render("dev/templates/hourly_html.Rmd"
                   , params = list(
                     date = tmp$datetime
                     , flow = tmp$flow
@@ -112,7 +112,7 @@ rain %>%
   right_join(tmp, by=c("datetime"="datehour")) -> tmp
 
 
-rmarkdown::render("R/hourly_html.Rmd"
+rmarkdown::render("dev/templates/hourly_html.Rmd"
                   , params = list(
                     date = tmp$datetime
                     , flow = tmp$flow

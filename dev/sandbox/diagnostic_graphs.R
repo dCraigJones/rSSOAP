@@ -5,7 +5,7 @@ date <- tmp$datehour
 flow <- tmp$McCoy*460/60
 rain <- tmp$rain
 
-rmarkdown::render("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/R/hourly_html.Rmd"
+rmarkdown::render("G:/Financial Services/Corporate Planning/Hydraulic Model Files/R Library/rSSOAP/dev/templates/hourly_html.Rmd"
                   , params = list(
                     date = date
                     , flow = flow
