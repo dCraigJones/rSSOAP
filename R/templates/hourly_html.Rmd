@@ -1,0 +1,81 @@
+---
+output: html_document
+params:
+  title_name: " "
+  date: NA
+  flow: NA
+  rain: NA
+  gwi_pct: 0.8
+  qq_error: 0.10
+  qq_offset: 25
+  minimum_storm: 0
+  init_abstraction: 0
+---
+\pagenumbering{gobble}
+```{r, include=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+source("../../clean.R")
+source("../../shape.R")
+source("../../isolate.R")
+source("../../model.R")
+source("../../Draw.R")
+source("../../util.R")
+source("../../print.R")
+source("../../def.R")
+
+#load("../../data/hourly_rain.RData")
+#load("../../data/hourly_flow.RData")
+
+library(dplyr)
+library(zoo)
+library(lubridate)
+library(vars)
+#library(imputeTS)
+#library(stringr)
+#library(tidyr)
+#library(ggplot2); theme_set(theme_bw())
+
+# Conversion Factors
+kgpd_to_gpm <- 1000/1440
+gpm_to_kgpd <- 1440/1000
+
+# Storm Definitions
+pf_ma <- 3.99
+pf_5yr <- 4.90
+pf_25yr <- 7.56
+pf_100yr <- 10.6
+pf_500yr <- 15.3
+
+hf <- data.frame(datetime=params$date, flow=params$flow, rain=params$rain)
+
+#hf <- data.frame(datetime=to_ssoap$datehour, flow=to_ssoap$hf, rain=to_ssoap$p)
+```
+
+# `r params$title_name`
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+hf$scrub <- remove_outliers(hf$flow)
+
+hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain,  params$gwi_pct)
+
+diurnal <- isolate_hourly_dwf(hf$datetime, hf$scrub-hf$gwi, hf$rain)
+
+hf$bsf <- isolate_hourly_bsf(hf$datetime, hf$scrub-hf$gwi, hf$rain, diurnal)
+
+uh <- shape_hourly_hydrograph(
+    hf$datetime
+  , hf$scrub-hf$gwi-hf$bsf
+  , hf$rain
+  , 24
+  , params$minimum_storm
+  , 1
+  , params$init_abstraction)
+
+hf$rdi <- model_hydrograph(hf$rain, uh, params$minimum_storm, params$init_abstraction)
+
+hf$model <- hf$bsf+hf$gwi+hf$rdi
+
+draw_ii(hf$datetime, hf$scrub, hf$gwi, hf$model, diurnal, uh, ,params$qq_error, params$qq_offset)
+print_summary(hf, diurnal, uh)
+#print_data_table(hf, diurnal, uh)
+save(hf, diurnal, uh, file="rSSOAP.RData")
+```

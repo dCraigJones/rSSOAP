@@ -106,6 +106,7 @@ isolate_hourly_dwf <- function(date, flow, rain
 
 isolate_hourly_gwi <- function(datetime, flow, rain, pct_of_ntf=0.8){
   tmp <- data.frame(datetime, flow, rain)
+  #tmp <- hf
 
   ntf <- tmp %>%
     mutate(date=date(datetime)) %>%
@@ -121,7 +122,7 @@ isolate_hourly_gwi <- function(datetime, flow, rain, pct_of_ntf=0.8){
     left_join(ntf, by="date") %>%
     mutate(gwi=ntf2*pct_of_ntf) %>%
     dplyr::select(datetime, flow, rain, gwi) %>%
-    mutate(wk=week(date))
+    mutate(wk=lubridate::week(datetime))
 
   export <- use %>%
     group_by(wk) %>%

@@ -1,7 +1,10 @@
-model_hydrograph <- function(rain, uh, INITIAL_ABSTRACTION=0) {
+model_hydrograph <- function(rain, uh, MINIMUM_STORM=0, INITIAL_ABSTRACTION=0) {
+
   r <- rain
+  #r[r<MINIMUM_STORM]=0
   r[is.na(r)]=0
-  r[r<INITIAL_ABSTRACTION]=0
+  r <- r - INITIAL_ABSTRACTION
+  r[r<0]=0
 
   #PU <- lag_rain(rain)
   PU <- lag_rain(r)
@@ -16,9 +19,10 @@ model_hydrograph <- function(rain, uh, INITIAL_ABSTRACTION=0) {
 
 
 model_gwi_hydrograph <- function(rain, uh, INITIAL_ABSTRACTION=0) {
-  r <- rain
+  r <- rain - INITIAL_ABSTRACTION
   r[is.na(r)]=0
-  r[r<INITIAL_ABSTRACTION]=0
+  #r[r<INITIAL_ABSTRACTION]=0
+  r[r<0]=0
 
   r <- rollapply(r, 3, mean, fill=0)
 

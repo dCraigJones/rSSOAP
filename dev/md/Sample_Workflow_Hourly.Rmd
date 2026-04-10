@@ -1,5 +1,5 @@
 ---
-output: html_document
+output: pdf_document
 params:
   date: NA
   flow: NA
@@ -15,6 +15,7 @@ source("../../R/model.R")
 source("../../R/draw.R")
 source("../../R/util.R")
 source("../../R/print.R")
+source("../../R/def.R")
 
 load("../../data/hourly_rain.RData")
 load("../../data/hourly_flow.RData")
@@ -38,7 +39,7 @@ hf$gwi <- isolate_hourly_gwi(hf$datetime, hf$scrub, hf$rain,  params$gwi_pct)
 
 diurnal <- isolate_hourly_dwf(hf$datetime, hf$scrub-hf$gwi, hf$rain)
 
-hf$bsf <- isolate_hourly_bsf(hf$datetime, hf$scrub-hf$gwi, hf$rain, diurnal)
+hf$bsf <- isolate_hourly_bsf(hf$datetime, hf$scrub, hf$rain, diurnal)
 
 uh <- shape_hourly_hydrograph(
     hf$datetime

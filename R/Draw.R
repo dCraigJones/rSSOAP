@@ -152,8 +152,8 @@ draw_model_qaqc <- function(df) {
 }
 
 draw_qq <- function(field, model, units="psi", error=0.10, minVal=2) {
-    fx <- quantile(field, probs=(2:99/100))
-    my <- quantile(model, probs=(2:99/100))
+    fx <- quantile(field, probs=(2:99/100), na.rm=TRUE)
+    my <- quantile(model, probs=(2:99/100), na.rm=TRUE)
 
     qqplot(fx, my
            , xlab=paste0("field (", units,")")
@@ -249,7 +249,7 @@ draw_hydrograph <- function(uh, P=7.56) {
 
 }
 
-draw_ii <- function(datetime, flow, gwi, model, diurnal, uh, STATION_NAME="") {
+draw_ii <- function(datetime, flow, gwi, model, diurnal, uh, STATION_NAME="", qq_error=0.1, qq_offset=25) {
     layout(matrix(c(1,1,2,2,3,4), nrow=3, byrow=TRUE))
     par(mar=c(1,5,2,2))
     draw_diurnal(diurnal)
@@ -257,5 +257,5 @@ draw_ii <- function(datetime, flow, gwi, model, diurnal, uh, STATION_NAME="") {
     draw_gwi(datetime, gwi)
     par(mar=c(5,5,2,2))
     draw_hydrograph(uh)
-    draw_qq(flow, model, "gpm", 0.1, 25)
+    draw_qq(flow, model, "gpm", qq_error, qq_offset)
 }
