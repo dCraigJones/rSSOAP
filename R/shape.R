@@ -4,8 +4,9 @@ shape_daily_hydrograph <- function(date, signal, rain, MODEL_DURATION=20, INITIA
   rdi <- zero_offset(rdi)
   rdi[rdi<0]=0
 
-  r <- rain
-  r[r<INITIAL_ABSTRACTION]=0
+  r <- rain - INITIAL_ABSTRACTION
+  #r[r<INITIAL_ABSTRACTION]=0
+  r[r<0]=0
   r[is.na(r)]=0
 
   # Translate to time series for VAR
@@ -55,7 +56,7 @@ shape_gwi_hydrograph <- function(date, signal, rain, MODEL_DURATION=60, INITIAL_
 }
 
 
-shape_hourly_hydrograph <- function(date, signal, rain, MODEL_DURATION=20, INITIAL_ABSTRACTION = 0.5, SCALE=1) {
+shape_hourly_hydrograph <- function(date, signal, rain, MODEL_DURATION=20, MINIMUM_STORM = 0.5, SCALE=1, INITIAL_ABSTRACTION=0) {
 
   # date <- hf$datetime
   # signal <- hf$flow-hf$gwi-hf$bsf
@@ -70,9 +71,11 @@ shape_hourly_hydrograph <- function(date, signal, rain, MODEL_DURATION=20, INITI
   rdi[rdi<0]=0
   rdi[is.na(rdi)]=0
 
-  r <- rain
-  r[r<INITIAL_ABSTRACTION]=0
+  r <- rain#- INITIAL_ABSTRACTION
+  r[r<MINIMUM_STORM]=0
   r[is.na(r)]=0
+  r <- r - INITIAL_ABSTRACTION
+  r[r<0]=0
 
   # Translate to time series for VAR
   ii <- ts(cbind(r, rdi))
