@@ -3,3 +3,16 @@ inst/doc
 .Rhistory
 .RData
 .Ruserdata
+
+# Claude Code
+.claude/
+
+# Generated outputs
+out/
+R/*.html
+R/*.RData
+R/md/*.html
+R/md/*.RData
+
+# IDE
+rSSOAP.code-workspace
